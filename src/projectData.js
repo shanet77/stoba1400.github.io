@@ -24,7 +24,7 @@ export const projects = [
       title: "Sudoku",
       subtitle: "C++, Docker, Catch2 framework",
       description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium dolore rerum laborum iure enim sint nemo omnis voluptate exercitationem eius?",
-      link: "https://pythonbootcamp.com",
+        "• Replayable game of sudoku created using C++ OOP design\n • Unit testing performed using Catch2 framework",
+      link: "https://gitlab.com/stobar",
     },
   ];
