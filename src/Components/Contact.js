@@ -37,9 +37,8 @@ export default function Contact() {
                 stob419@gmail.com
               </a>
               <h2 className="title-font font-semibold text-white tracking-widest text-xs mt-4">
-                PHONE
+                Favicon created by Freepik - Flaticon
               </h2>
-              <p className="leading-relaxed">419&#x2011;494&#x2011;8339</p>
             </div>
           </div>
         </div>
