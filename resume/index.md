@@ -3,31 +3,29 @@ title: My Resume
 layout: layouts/resume.njk
 ---
 
-# My Resume
-
 ## Contact Information
 
-- Email: your.email@example.com
-- LinkedIn: linkedin.com/in/yourprofile
+- Email: stob419@gmail.com
+- LinkedIn: linkedin.com/in/shanetobar
 
 ## Experience
 
-### Job Title at Company A
+### Software Engineer - Capital One
 
-Dates
+August 2022 - Present
 
-- Responsibilities and achievements.
-
-### Job Title at Company B
-
-Dates
-
-- More responsibilities and achievements.
-
-## Education
-
-- Degree, University Name, Year
+- Developed Node.js AWS lambda function to securely process and tokenize payment
+  files containing 1,000s of daily payments
+- Transformed 3 legacy CRON jobs into Node.js and Python AWS lambda
+  micro-services to increase maintainability and reliability for daily payment
+  processes
+- Developed a DynamoDB-based caching service for GraphQL server that reduced
+  minimum and 25th percentile response times by 84% and 93%, respectively
+- Integrated Open Telemetry into GraphQL written in Go using OpenTelemetry-Go to
+  increase number of observable traces by approximately 80%
+- Created Python AWS Batch service generate settlement reports for 10,000+
+  transactions daily
 
 ## Skills
 
-- List your skills here.
+- Node.js, Python, AWS (Lambda, S3, DynamoDB, Cloudwatch)

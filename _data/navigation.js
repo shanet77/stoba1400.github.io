@@ -4,10 +4,6 @@ export default [
         url: "/"
     },
     {
-        text: "About",
-        url: "/about/"
-    },
-    {
         text: "Blog",
         url: "/blog/"
     },

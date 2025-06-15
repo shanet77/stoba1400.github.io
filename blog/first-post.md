@@ -1,8 +1,7 @@
 ---
-title: My First Blog Post
-date: 2025-05-15
+title: Let's Go 'Cers
+date: 2025-06-15
 layout: layouts/post.njk
 ---
 
-This is the content of my first blog post. You can write about anything you find
-interesting!
+SGA, FTA, VGA, doesn't matter. Pacers in six.

@@ -4,6 +4,7 @@ export default function (eleventyConfig) {
     // Passthrough Static Assets
     eleventyConfig.addPassthroughCopy("css");
     eleventyConfig.addPassthroughCopy("images");
+    eleventyConfig.addPassthroughCopy("public")
 
     // Blog Post Collection
     eleventyConfig.addCollection("posts", (collectionApi) => {

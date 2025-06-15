@@ -6,14 +6,17 @@
   <title>{{ site.title }}{% if title %} | {{ title }}{% endif %}</title>
   <meta name="description" content="{{ description or site.description }}">
   <link rel="stylesheet" href="{{ '/css/style.css' | url }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="icon" href="/public/favicon.ico" type="image/x-icon">
 </head>
 <body>
   {% include "partials/header.njk" %}
 
   <main>
-    {{ content | safe }}
+    <div class="content-container">
+      {{ content | safe }}
+    </div>
   </main>
 
-  {% include "partials/footer.njk" %}
 </body>
 </html>
