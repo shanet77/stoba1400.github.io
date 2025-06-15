@@ -1,12 +1,13 @@
 ---
-title: My Resume
+title:
 layout: layouts/resume.njk
 ---
 
 ## Contact Information
 
 - Email: stob419@gmail.com
-- LinkedIn: linkedin.com/in/shanetobar
+- LinkedIn:
+  [linkedin.com/in/shanetobar](https://www.linkedin.com/in/shanetobar/)
 
 ## Experience
 
