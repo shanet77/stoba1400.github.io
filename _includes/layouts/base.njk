@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ site.title }}{% if title %} | {{ title }}{% endif %}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="stylesheet" href="{{ '/css/style.css' | url }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="icon" href="/public/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  {% include "partials/header.njk" %}
+
+  <main>
+    <div class="content-container">
+      {{ content | safe }}
+    </div>
+  </main>
+
+</body>
+</html>

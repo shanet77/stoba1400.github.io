@@ -1,0 +1,12 @@
+---
+layout: layouts/base.njk
+permalink: "/blog/{{ page.fileSlug }}/"
+---
+
+<article>
+  <h1>{{ title }}</h1>
+  <p class="meta">Published on: {{ date | readableDate }}</p>
+  {{ content | safe }}
+</article>
+
+<p><a href="{{ '/blog/' | url }}">Back to Blog</a></p>

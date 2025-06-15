@@ -1,0 +1,174 @@
+/* General Body Styles */
+body {
+  font-family: 'Inter', sans-serif; /* A clean, modern sans-serif font */
+  margin: 0; /* Remove default body margin */
+  line-height: 1.6;
+  background-color: #EFF3F6; /* Light, subtle background color */
+  color: #333333; /* Dark grey for main text */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure body takes full viewport height */
+}
+
+/* Main Content Area */
+main {
+  max-width: 960px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  flex-grow: 1; /* This is important: allows main to grow and fill available space */
+  min-height: 60vh; /* Example: Ensure main is at least 60% of viewport height */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.content-container {
+  margin-bottom: 30px;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Varela Round', sans-serif; /* A softer, playful sans-serif for headings */
+  color: #2C3E50; /* A slightly darker shade for headings */
+  margin-bottom: 0.8em;
+  line-height: 1.2;
+}
+
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+/* Add more heading sizes as needed */
+
+/* Header Styles */
+header {
+  display: flex;
+  flex-direction: column; /* Stack items vertically on small screens */
+  align-items: center;
+  padding: 20px;
+  background-color: #FFFFFF; /* White background for header */
+  border-bottom: 1px solid #DDDDDD; /* Soft border */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  margin-bottom: 20px;
+}
+
+header h1 {
+  margin: 0 0 10px 0; /* Adjust margin for header title */
+}
+
+header h1 a {
+  text-decoration: none;
+  color: #2C3E50;
+  transition: color 0.3s ease;
+}
+
+header h1 a:hover {
+  color: #4A90E2; /* Accent color on hover */
+}
+
+/* Navigation Styles */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap; /* Allow navigation items to wrap on smaller screens */
+  justify-content: center; /* Center nav items */
+}
+
+nav li {
+  margin: 5px 15px; /* Adjust spacing for nav items */
+}
+
+nav a {
+  text-decoration: none;
+  color: #555555; /* Default nav link color */
+  padding: 8px 12px;
+  border-radius: 8px; /* Rounded corners for nav links */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #E0E7EB; /* Light background on hover */
+  color: #4A90E2; /* Accent color on hover */
+}
+
+nav a[aria-current="page"] {
+  font-weight: bold;
+  background-color: #4A90E2; /* Accent background for active page */
+  color: #FFFFFF; /* White text for active page */
+}
+
+/* Blog Post Meta Information */
+.meta {
+  font-size: 0.9em;
+  color: #777777;
+  display: block; /* Ensure it takes its own line */
+  margin-bottom: 1em;
+}
+
+/* Links within content */
+a {
+  color: #4A90E2; /* Accent color for links */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #F5A623; /* Another accent color on hover */
+}
+
+/* Footer Styles */
+footer {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #2C3E50; /* Dark background for footer */
+  color: #E0E7EB; /* Light text for footer */
+  text-align: center;
+  font-size: 0.9em;
+  border-top: 1px solid #3A4F63; /* Slightly darker border */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  header {
+    padding: 15px;
+  }
+
+  main {
+    margin: 15px;
+    padding: 20px;
+    margin: 15px auto;
+  }
+
+  nav ul {
+    flex-direction: column; /* Stack nav items vertically on smaller screens */
+  }
+
+  nav li {
+    margin: 5px 0;
+  }
+}
+
+@media (max-width: 960px) {
+  .content-container {
+    max-width: calc(100% - 40px);
+    margin: 0 20px 30px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-container {
+    padding: 15px;
+    margin: 0 15px 20px 15px;
+  }
+}
+
+/* Pixel Art Player Styles (from previous immersive, ensure it's in your style.css) */
+.basketball-player-container {
+  display: flex;
+  justify-content: center; /* Center the image horizontally */
+  margin-bottom: 20px; /* Add some space below the image */
+  width: 100%; /* Ensure the container takes up full width */
+}
