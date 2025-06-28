@@ -8,6 +8,13 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Ensure body takes full viewport height */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme Specific Styles */
+html[data-theme="dark"] body {
+  background-color: #030616; /* Dark theme background */
+  color: #E0E7EB; /* Dark theme text */
 }
 
 /* Main Content Area */
@@ -15,13 +22,19 @@ main {
   max-width: 960px;
   margin: 20px auto;
   padding: 30px;
-  background-color: #FFFFFF;
+  background-color: #FEFEFE;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   flex-grow: 1; /* This is important: allows main to grow and fill available space */
   min-height: 60vh; /* Example: Ensure main is at least 60% of viewport height */
   width: 100%;
   box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html[data-theme="dark"] main {
+  background-color: #152238; /* Dark theme card background */
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.198); /* Darker shadow for contrast */
 }
 
 .content-container {
@@ -34,6 +47,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #2C3E50; /* A slightly darker shade for headings */
   margin-bottom: 0.8em;
   line-height: 1.2;
+  transition: color 0.3s ease;
 }
 
 h1 { font-size: 2.5em; }
@@ -46,10 +60,25 @@ header {
   flex-direction: column; /* Stack items vertically on small screens */
   align-items: center;
   padding: 20px;
-  background-color: #FFFFFF; /* White background for header */
+  background-color: #FEFEFE; /* White background for header */
   border-bottom: 1px solid #DDDDDD; /* Soft border */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow */
   margin-bottom: 20px;
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6 {
+  color: #FEFEFE; /* Dark theme heading color */
+}
+
+html[data-theme="dark"] header {
+  background-color: #15182D; /* Dark theme header background */
+  border-bottom-color: #15182D; /* Dark theme border */
+  box-shadow: 0 2px 8px rgba(109, 108, 108, 0.533);
 }
 
 header h1 {
@@ -60,6 +89,10 @@ header h1 a {
   text-decoration: none;
   color: #2C3E50;
   transition: color 0.3s ease;
+}
+
+html[data-theme="dark"] header h1 a {
+  color: #F8F8F8; /* Dark theme header title color */
 }
 
 header h1 a:hover {
@@ -88,15 +121,29 @@ nav a {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+html[data-theme="dark"] nav a {
+  color: #A0B0C0; /* Dark theme nav link color */
+}
+
 nav a:hover {
   background-color: #E0E7EB; /* Light background on hover */
   color: #4A90E2; /* Accent color on hover */
+}
+
+html[data-theme="dark"] nav a:hover {
+  background-color: #4C6880;
+  color: #FEFEFE;
 }
 
 nav a[aria-current="page"] {
   font-weight: bold;
   background-color: #4A90E2; /* Accent background for active page */
   color: #FFFFFF; /* White text for active page */
+}
+
+html[data-theme="dark"] nav a[aria-current="page"] {
+  background-color: #00FFF9; /* Use orange accent for active in dark mode */
+  color: #000;
 }
 
 /* Blog Post Meta Information */
@@ -107,6 +154,10 @@ nav a[aria-current="page"] {
   margin-bottom: 1em;
 }
 
+html[data-theme="dark"] .meta {
+  color: #B0C0D0; /* Dark theme meta color */
+}
+
 /* Links within content */
 a {
   color: #4A90E2; /* Accent color for links */
@@ -114,9 +165,17 @@ a {
   transition: color 0.3s ease;
 }
 
+html[data-theme="dark"] a {
+  color: #128cbb; /* Dark theme link color */
+}
+
 a:hover {
   text-decoration: underline;
-  color: #F5A623; /* Another accent color on hover */
+  color: #129cbb; /* Another accent color on hover */
+}
+
+html[data-theme="dark"] a:hover {
+  color: #4A90E2; /* Hover color for dark mode links */
 }
 
 /* Footer Styles */
@@ -128,6 +187,12 @@ footer {
   text-align: center;
   font-size: 0.9em;
   border-top: 1px solid #3A4F63; /* Slightly darker border */
+}
+
+html[data-theme="dark"] footer {
+  background-color: #1A2832; /* Dark theme footer background */
+  color: #A0B0C0; /* Dark theme footer text */
+  border-top-color: #2A3C4A;
 }
 
 /* Responsive Adjustments */
@@ -165,10 +230,20 @@ footer {
   }
 }
 
-/* Pixel Art Player Styles (from previous immersive, ensure it's in your style.css) */
-.basketball-player-container {
-  display: flex;
-  justify-content: center; /* Center the image horizontally */
-  margin-bottom: 20px; /* Add some space below the image */
-  width: 100%; /* Ensure the container takes up full width */
-}
+/* Dark Mode Toggle Button Specific Styles */
+.fixed { position: fixed; }
+.bottom-4 { bottom: 1rem; }
+.right-4 { right: 1rem; }
+.bg-gray-700 { background-color: #4A5568; }
+.text-white { color: #ffffff; }
+.p-3 { padding: 0.75rem; }
+.rounded-full { border-radius: 9999px; } /* Circular appearance */
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+.z-50 { z-index: 50; }
+.hover\:bg-gray-600:hover { background-color: #4A5568; /* Adjust to lighter grey for hover */ }
+.transition-colors { transition-property: background-color, border-color, color, fill, stroke; }
+.duration-300 { transition-duration: 300ms; }
+.focus\:outline-none:focus { outline: 0; }
+.focus\:ring-2:focus { box-shadow: 0 0 0 2px; }
+.focus\:ring-offset-2:focus { box-shadow: 0 0 0 2px #fff, 0 0 0 4px; } /* White ring offset */
+.focus\:ring-gray-500:focus { --tw-ring-color: #6B7280; }
