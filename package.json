@@ -1,8 +1,8 @@
 {
-	"name": "astro-site-version",
+	"name": "personal-site",
 	"type": "module",
 	"version": "0.26.3",
-	"description": "A modern Astro theme focused on content creation",
+	"description": "Personal site and blog",
 	"keywords": [
 		"astro",
 		"theme",
@@ -11,18 +11,15 @@
 		"typescript",
 		"i18n"
 	],
-	"homepage": "https://github.com/tuyuritio/astro-theme-thought-lite",
+	"homepage": "https://shanetobar.com",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tuyuritio/astro-theme-thought-lite.git"
-	},
-	"bugs": {
-		"url": "https://github.com/tuyuritio/astro-theme-thought-lite/issues"
+		"url": "https://github.com/shanet77/stoba1400.github.io"
 	},
 	"license": "GPL-3.0",
 	"author": {
-		"name": "tuyuritio",
-		"url": "https://github.com/tuyuritio"
+		"name": "Shane",
+		"url": "https://shanetobar.com"
 	},
 	"scripts": {
 		"new": "tsx --loader esm-loader-yaml scripts/new.ts",

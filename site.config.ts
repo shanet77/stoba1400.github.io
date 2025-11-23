@@ -5,10 +5,10 @@ const config = siteConfig({
 	prologue: "Welcome to my site",
 	author: {
 		name: "Shane Tobar",
-		email: "hi@your.mail",
-		link: "https://your.website"
+		email: "stob419@gmail.com",
+		link: "https://www.shanetobar.com"
 	},
-	description: "A modern Astro theme focused on content creation.",
+	description: "My personal site",
 	copyright: {
 		type: "CC BY-NC-ND 4.0",
 		year: "2025"
