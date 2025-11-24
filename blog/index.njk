@@ -1,0 +1,17 @@
+---
+title: Blog
+layout: layouts/base.njk
+---
+
+<h1>Blog</h1>
+
+<p>Some random musings:</p>
+
+<ul>
+  {% for post in collections.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.data.title }}</a>
+      <span class="meta">Published on: {{ post.data.date | readableDate }}</span>
+    </li>
+  {% endfor %}
+</ul>

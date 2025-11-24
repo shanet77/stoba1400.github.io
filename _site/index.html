@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shane Tobar | Home</title>
+  <meta name="description" content="A personal blog and resume site.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Varela+Round&display=swap" rel="stylesheet">
+  <link rel="icon" href="/public/favicon.ico" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <script>
+    // IIFE (Immediately Invoked Function Expression) to run on page load
+    (function() {
+      // Function to set the theme attribute on the html tag
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        // Save the user's preference
+        localStorage.setItem('theme', theme);
+      }
+
+      // Get saved preference from localStorage
+      const savedTheme = localStorage.getItem('theme');
+
+      // Check system preference
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+      if (savedTheme) {
+        // If a theme is saved, use it
+        setTheme(savedTheme);
+      } else if (prefersDark) {
+        // If no theme is saved, but system prefers dark, use dark
+        setTheme('dark');
+      } else {
+        // Otherwise, default to light
+        setTheme('light');
+      }
+
+      // Expose a global function to toggle the theme (for the button)
+      window.toggleTheme = function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+      };
+    })();
+  </script>
+</head>
+<body>
+  <header>
+  <h1><a href="/">Shane Tobar</a></h1>
+  <nav>
+    <ul>
+      
+        <li><a href="/" aria-current="page">Home</a></li>
+      
+        <li><a href="/blog/" >Blog</a></li>
+      
+        <li><a href="/resume/" >Resume</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+  <main>
+    <div class="content-container">
+      <h2>Hey!</h2>
+<p>This is my place for writing random stuff and listing my career information. If
+you have any questions, ask away! <br>I'm way too into the NBA, so you will have
+to endure some basketball references here and there.</p>
+
+    </div>
+  </main>
+  <button
+    onclick="toggleTheme()"
+    class="fixed bottom-4 right-4 bg-gray-700 text-white p-3 rounded-full shadow-lg z-50
+           hover:bg-gray-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+    aria-label="Toggle dark mode"
+  >
+    <!-- Simple icon for light/dark mode -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M3 12H2m15.325-4.275l-.707-.707M6.364 17.636l-.707.707M17.636 6.364l.707-.707M6.364 6.364l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+  </button>
+
+</body>
+</html>
