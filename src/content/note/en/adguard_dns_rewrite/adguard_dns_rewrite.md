@@ -34,8 +34,6 @@ Where `CLOUDFLARE_API_TOKEN` is an environment variable set as part of [caddy-dn
 With our reverse proxy and Adguard up-and-running as a DNS server, let's configure some DNS rewrites. The DNS rewrite forwards queries for specified domains to the Caddy LXC IP, bypassing public resolvers.
 To do this in Adguard Home, we can navigate to the DNS Rewrites page via Filters->DNS rewrites. From there, we can begin to create our rewrite with the `Add DNS rewrite` button. Let's configure it as such, replacing the information to match your domain/subdomain and reverse proxy IP address.
 
-![Adguard Rewrite Example](adguard_rewrite_example.png)
-
 ### Using the DNS Server
 Finally, we need to point our client devices to the DNS server. There are a couple ways we can do this: 
 - The first way is to set the DNS server at the router-level, so that devices send DNS queries to the DNS address assigned by the router. 
