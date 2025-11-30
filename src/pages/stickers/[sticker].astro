@@ -1,0 +1,30 @@
+---
+import { Astro } from "astro";
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
+import Base from "$layouts/Base.astro";
+import i18nit from "$i18n";
+import config from "$config";
+
+export async function getStaticPaths() {
+	const stickersDir = join(process.cwd(), "public", "stickers");
+	const files = readdirSync(stickersDir).filter(f => f.endsWith(".jpg"));
+	return files.map(file => ({
+		params: { sticker: file.replace(/\.jpg$/i, "") }
+	}));
+}
+
+const { sticker } = Astro.params;
+const { locale = config.i18n.defaultLocale } = Astro.params;
+const t = i18nit(locale);
+const title = t("navigation.stickers") || sticker;
+const imgPath = `/stickers/${sticker}.jpg`;
+---
+
+<Base title={title} {locale}>
+  <main class="flex flex-col items-center justify-center min-h-screen">
+    <h1>{ sticker }</h1>
+    <img src={imgPath} alt={t('navigation.stickers', { sticker })} />
+  </main>
+</Base>
+
