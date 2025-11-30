@@ -13,6 +13,7 @@ let {
 	note,
 	jotting,
 	about,
+	sticker,
 	globe,
 	rss,
 	sun,
@@ -29,7 +30,8 @@ const routes: { path: string; extra?: string[]; icon: Snippet; label: string }[]
 	{ label: t("navigation.home"), path: homeRoute, extra: [getRelativeLocaleUrl(locale, "/preface")], icon: home },
 	{ label: t("navigation.note"), path: getRelativeLocaleUrl(locale, "/note"), icon: note },
 	{ label: t("navigation.jotting"), path: getRelativeLocaleUrl(locale, "/jotting"), icon: jotting },
-	{ label: t("navigation.about"), path: getRelativeLocaleUrl(locale, "/about"), icon: about }
+	{ label: t("navigation.about"), path: getRelativeLocaleUrl(locale, "/about"), icon: about },
+	{ label: t("navigation.stickers"), path: getRelativeLocaleUrl(locale, "/stickers"), icon: sticker }
 ];
 
 /**
@@ -76,7 +78,7 @@ onMount(() => {
 <div role="button" onclick={() => (menu = false)} class:pointer-events-none={!menu} class:bg-transparent={!menu} class="fixed top-0 left-0 w-screen h-screen pointer-events-auto bg-#aaaaaa88 transition-background-color sm:hidden"></div>
 
 <nav bind:this={navigator} class:transform-translate-x-full={!menu} class="fixed top-0 right-0 flex flex-col justify-between items-start gap-5 p-5 bg-background h-full sm:contents overflow-hidden transition-transform">
-	<header class="grid gap-5 c-secondary grid-rows-[repeat(5,1fr)] sm:(grid-rows-none grid-cols-[repeat(4,1fr)])">
+	<header class="grid gap-5 c-secondary grid-rows-[repeat(5,1fr)] sm:(grid-rows-none grid-cols-[repeat(5,1fr)])">
 		<button onclick={() => (menu = false)} class="sm:hidden">{@render close()}</button>
 
 		{#each routes as item}

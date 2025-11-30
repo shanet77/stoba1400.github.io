@@ -1,0 +1,69 @@
+---
+import { getEntry, render } from "astro:content";
+import config, { monolocale } from "$config";
+import Time from "$utils/time";
+import Base from "$layouts/Base.astro";
+import i18nit from "$i18n";
+
+export async function getStaticPaths() {
+	// Create path for each locale, omitting default locale from URL
+	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
+}
+
+const { locale = config.i18n.defaultLocale } = Astro.params;
+
+const t = i18nit(locale);
+
+const introduction = await getEntry("information", `${locale}/introduction`);
+---
+
+<style lang="less">
+	article {
+		div {
+			margin-bottom: 2rem;
+
+			h1 {
+				margin-bottom: 1rem;
+
+				font-size: 1.8rem;
+			}
+		}
+	}
+  .gallery { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .gallery img { border: 1px solid #ddd; border-radius: 8px; }
+</style>
+
+<Base title={t("navigation.stickers")} {locale}>
+	<main class="flex flex-col sm:flex-row justify-between gap-5">
+		<article class="flex flex-col">
+			{
+				(
+					<div>
+						<h1>Stickers</h1>
+						<div>
+						<p>A collection of images that I like across the internet displayed here as stickers.</p>
+						</div>
+						<div class="gallery">
+              <a href="/stickers/Nance_Patrick_Run" target="_blank">
+                <img src="/public/stickers/Nance_Patrick_Run.jpg" alt="Larry Nance Running as Patrick" width="120">
+              </a>
+
+              <a href="/stickers/Nance_Patrick_Stare" target="_blank">
+                <img src="/public/stickers/Nance_Patrick_Stare.jpg" alt="Larry Nance Stare as Patrick" width="120">
+              </a>
+
+							<a href="/stickers/girk" target="_blank">
+                <img src="/public/stickers/girk.jpg" alt="Girk Movie Poster" width="120">
+              </a>
+
+							<a href="/stickers/pim_earth" target="_blank">
+                <img src="/public/stickers/pim_earth.jpg" alt="Pim Finds Out the Earth is Flat" width="120">
+              </a>
+
+            </div>
+					</div>
+				)
+			}
+		</article>
+	</main>
+</Base>
