@@ -5,6 +5,7 @@ import { flip } from "svelte/animate";
 import { fade } from "svelte/transition";
 import { monolocale } from "$config";
 import i18nit from "$i18n";
+import Time from "$utils/time";
 
 let {
 	locale,
@@ -91,6 +92,7 @@ onMount(() => {
 						<a href={getRelativeLocaleUrl(locale, `/jotting/${monolocale ? jotting.id : jotting.id.split("/").slice(1).join("/")}`)} class="c-primary font-600 link">{jotting.data.title}</a>
 					</span>
 					<span class="flex gap-1">
+						<time class="text-3.3 c-remark">{Time(jotting.data.timestamp)}</time>
 						{#each jotting.data.tags as tag}
 							<button onclick={() => switchTag(tag, true)} class="text-3.3 c-remark">#{tag}</button>
 						{/each}
