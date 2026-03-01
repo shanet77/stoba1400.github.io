@@ -31,7 +31,7 @@ That's it, pretty much.
 - GG Jackson
 - Jay Huff
 - Justin Champagnie
-- Maxime Reynau
+- Maxime Reynaud
 
 ## Current Scores
 
@@ -49,7 +49,7 @@ That's it, pretty much.
 | Bryce             | GG Jackson         | 0     |       |
 | Bryce             | Jay Huff           | 0     |       |
 | Bryce             | Justin Champennie  | 0     |       |
-| Bryce             | Maxime Reynau      | 0     |       |
+| Bryce             | Maxime Reynaud     | 0     |       |
 | **Bryce's Total** |                    |       | **0** |
 
 ## Notes
