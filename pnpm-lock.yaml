@@ -180,6 +180,9 @@ importers:
       '@types/mdast':
         specifier: ^4.0.4
         version: 4.0.4
+      '@unocss/astro':
+        specifier: 66.6.2
+        version: 66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
       '@unocss/reset':
         specifier: ^66.6.2
         version: 66.6.2
@@ -212,7 +215,7 @@ importers:
         version: 4.21.0
       unocss:
         specifier: ^66.6.2
-        version: 66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+        version: 66.6.2(@unocss/astro@66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)))(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
 
 packages:
 
@@ -1905,6 +1908,14 @@ packages:
 
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
+
+  '@unocss/astro@66.6.2':
+    resolution: {integrity: sha512-lrydK+ixaAKBfrQKhP2BBbqe+K1ctPN/LBbTT14VjE0GO7ovlfVG/gku3qROoTOyF8U1PcJqSa9kizFB/z+OeQ==}
+    peerDependencies:
+      vite: ^2.9.0 || ^3.0.0-0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0 || ^8.0.0-0
+    peerDependenciesMeta:
+      vite:
+        optional: true
 
   '@unocss/cli@66.6.2':
     resolution: {integrity: sha512-N7nKnOJ/36FRs3PE7+CFbzg7UBhIsucYYAK5xjJScX0H2q8O6rODaNM5uvc77Qh4q+y1S/Bt5ArOwIewzdpP4w==}
@@ -7329,6 +7340,14 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
+  '@unocss/astro@66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))':
+    dependencies:
+      '@unocss/core': 66.6.2
+      '@unocss/reset': 66.6.2
+      '@unocss/vite': 66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+    optionalDependencies:
+      vite: 6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)
+
   '@unocss/cli@66.6.2':
     dependencies:
       '@jridgewell/remapping': 2.3.5
@@ -11688,7 +11707,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unocss@66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)):
+  unocss@66.6.2(@unocss/astro@66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)))(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2)):
     dependencies:
       '@unocss/cli': 66.6.2
       '@unocss/core': 66.6.2
@@ -11707,6 +11726,8 @@ snapshots:
       '@unocss/transformer-directives': 66.6.2
       '@unocss/transformer-variant-group': 66.6.2
       '@unocss/vite': 66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
+    optionalDependencies:
+      '@unocss/astro': 66.6.2(vite@6.4.1(@types/node@25.3.3)(jiti@2.6.1)(less@4.5.1)(terser@5.46.0)(tsx@4.21.0)(yaml@2.8.2))
     transitivePeerDependencies:
       - supports-color
       - vite
