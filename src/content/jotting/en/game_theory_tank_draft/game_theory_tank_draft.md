@@ -35,7 +35,7 @@ That's it, pretty much.
 
 ## Current Scores
 
-### Team Scores Table (LAST UPDATED 03-01-2026)
+### Team Scores Table (LAST UPDATED 03-05-2026)
 
 | Team              | Player             | Score | Total |
 |-------------------|--------------------|-------|-------|
