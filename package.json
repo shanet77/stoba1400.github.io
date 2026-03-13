@@ -76,7 +76,7 @@
 		"shiki": "^4.0.1",
 		"svelte": "^5.53.7",
 		"typescript": "^5.9.3",
-		"undici": "^7.22.0",
+		"undici": "^7.24.0",
 		"unified": "^11.0.5",
 		"unist-builder": "^4.0.0",
 		"unist-util-find-after": "^5.0.0",
