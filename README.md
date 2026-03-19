@@ -52,4 +52,30 @@ Content creation is centralized in the `src/content` directory, mainly including
 
 For details, refer to the [Content Creation Guide](src/content/note/en/content.md).
 
+## Forgejo Deploy (RackNerd)
 
+This repo includes a Forgejo Actions workflow at `.forgejo/workflows/deploy.yml` that:
+
+1. Runs on pushes to `main`.
+2. Bootstraps Node.js in user space (no root required on the runner).
+3. Builds the Astro site with `pnpm build`.
+4. Deploys `dist/` to your RackNerd VPS over SSH.
+
+Configure these repository secrets in Forgejo:
+
+| Secret | Example |
+| --- | --- |
+| `DEPLOY_HOST` | `your.vps.host.or.ip` |
+| `DEPLOY_PORT` | `22` |
+| `DEPLOY_USER` | `shane` |
+| `DEPLOY_PATH` | `/home/deployer/sites/personal-site` |
+| `DEPLOY_SSH_KEY` | optional private key used by the runner to SSH to RackNerd |
+| `DEPLOY_HOST_KEY` | optional pinned host key line from `ssh-keyscan -H <host>` |
+
+One-time RackNerd prep:
+
+```sh
+mkdir -p /home/deployer/sites/personal-site
+```
+
+If `DEPLOY_SSH_KEY` is omitted, the workflow falls back to `/home/shane/.ssh/forgejo_deploy` on the runner.

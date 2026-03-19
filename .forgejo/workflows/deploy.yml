@@ -1,0 +1,89 @@
+name: Deploy static site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: linux-amd64
+    steps:
+      - name: Validate workspace
+        run: |
+          set -euo pipefail
+          test -f package.json
+
+      - name: Build site
+        env:
+          NODE_VERSION: "22.15.1"
+        run: |
+          set -euo pipefail
+
+          NODE_ROOT="$HOME/.local/node-v${NODE_VERSION}-linux-x64"
+          if [ ! -x "$NODE_ROOT/bin/node" ]; then
+            mkdir -p "$HOME/.local"
+            curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" -o /tmp/node.tar.xz
+            tar -xJf /tmp/node.tar.xz -C "$HOME/.local"
+          fi
+
+          export PATH="$NODE_ROOT/bin:$PATH"
+          corepack enable
+          corepack prepare pnpm@10.30.3 --activate
+          pnpm install --frozen-lockfile
+          pnpm build
+          tar -C dist -czf /tmp/site-dist.tgz .
+
+      - name: Deploy to RackNerd
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST_KEY: ${{ secrets.DEPLOY_HOST_KEY }}
+        run: |
+          set -euo pipefail
+
+          : "${DEPLOY_HOST:?Missing DEPLOY_HOST secret}"
+          : "${DEPLOY_USER:?Missing DEPLOY_USER secret}"
+          : "${DEPLOY_PATH:?Missing DEPLOY_PATH secret}"
+
+          if [ -z "${DEPLOY_PORT:-}" ]; then
+            DEPLOY_PORT="22"
+          fi
+
+          case "$DEPLOY_PATH" in
+            ""|"/"|"/home"|"/home/$DEPLOY_USER")
+              echo "Refusing unsafe DEPLOY_PATH: $DEPLOY_PATH"
+              exit 1
+              ;;
+          esac
+
+          mkdir -p "$HOME/.ssh"
+          chmod 700 "$HOME/.ssh"
+
+          if [ -n "${DEPLOY_SSH_KEY:-}" ]; then
+            KEY_PATH="$HOME/.ssh/id_ed25519"
+            printf '%s\n' "$DEPLOY_SSH_KEY" > "$KEY_PATH"
+            chmod 600 "$KEY_PATH"
+          elif [ -f "$HOME/.ssh/forgejo_deploy" ]; then
+            KEY_PATH="$HOME/.ssh/forgejo_deploy"
+            chmod 600 "$KEY_PATH"
+          else
+            echo "Missing DEPLOY_SSH_KEY secret and no $HOME/.ssh/forgejo_deploy key on runner."
+            exit 1
+          fi
+
+          if [ -n "${DEPLOY_HOST_KEY:-}" ]; then
+            printf '%s\n' "$DEPLOY_HOST_KEY" > "$HOME/.ssh/known_hosts"
+          else
+            ssh-keyscan -p "$DEPLOY_PORT" -H "$DEPLOY_HOST" > "$HOME/.ssh/known_hosts"
+          fi
+          chmod 600 "$HOME/.ssh/known_hosts"
+
+          SSH_OPTS="-i $KEY_PATH -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts -p $DEPLOY_PORT"
+
+          ssh $SSH_OPTS "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '$DEPLOY_PATH' && find '$DEPLOY_PATH' -mindepth 1 -maxdepth 1 -exec rm -rf {} +"
+          cat /tmp/site-dist.tgz | ssh $SSH_OPTS "$DEPLOY_USER@$DEPLOY_HOST" "tar -xzf - -C '$DEPLOY_PATH'"
