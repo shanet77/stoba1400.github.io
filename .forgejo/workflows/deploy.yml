@@ -10,10 +10,15 @@ jobs:
   deploy:
     runs-on: linux-amd64
     steps:
-      - name: Validate workspace
+      - name: Checkout repository
         run: |
           set -euo pipefail
-          test -f package.json
+          if [ ! -d .git ]; then
+            git init .
+            git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+          fi
+          git -c "http.extraHeader=Authorization: token ${GITHUB_TOKEN}" fetch --depth 1 origin "${GITHUB_SHA}"
+          git checkout --force FETCH_HEAD
 
       - name: Build site
         env:
