@@ -1,5 +1,6 @@
 ---
 const { title, subtitle, description, author, article } = Astro.props;
+const plausibleScriptSrc = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_SRC?.trim();
 
 // Locale-specific Noto Serif font mappings for Google Fonts
 const notoFonts: Record<string, string> = {
@@ -45,6 +46,22 @@ const notoFonts: Record<string, string> = {
 			var theme = localStorage.getItem("theme");
 			if (theme) document.documentElement.dataset.theme = theme;
 		</script>
+
+		{plausibleScriptSrc && (
+			<>
+				<!-- Privacy-friendly analytics by Plausible -->
+				<script async src={plausibleScriptSrc}></script>
+				<script is:inline>
+					window.plausible = window.plausible || function () {
+						(plausible.q = plausible.q || []).push(arguments);
+					};
+					plausible.init = plausible.init || function (i) {
+						plausible.o = i || {};
+					};
+					plausible.init();
+				</script>
+			</>
+		)}
 	</head>
 	<body>
 		<slot />

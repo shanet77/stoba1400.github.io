@@ -24,6 +24,22 @@ For basic configuration, refer to the [Site Configuration Guide](src/content/not
 
 For i18n configuration, refer to the [Internationalization Configuration Guide](src/content/note/en/internationalization.md).
 
+### Plausible Analytics (Optional)
+
+Keep your Plausible domain/script out of committed source by storing it in `.env`:
+
+```sh
+cp .env.example .env
+```
+
+Then set:
+
+```sh
+PUBLIC_PLAUSIBLE_SCRIPT_SRC=https://plausible.your-domain.com/js/pa-your-script-id.js
+```
+
+If `PUBLIC_PLAUSIBLE_SCRIPT_SRC` is empty, no analytics script is injected.
+
 ## Commands
 
 The theme provides the following commonly used commands:
