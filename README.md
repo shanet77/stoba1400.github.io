@@ -87,6 +87,7 @@ Configure these repository secrets in Forgejo:
 | `DEPLOY_PATH` | `/home/deployer/sites/personal-site` |
 | `DEPLOY_SSH_KEY` | optional private key used by the runner to SSH to RackNerd |
 | `DEPLOY_HOST_KEY` | optional pinned host key line from `ssh-keyscan -H <host>` |
+| `PUBLIC_PLAUSIBLE_SCRIPT_SRC` | optional, e.g. `https://plausible.example.com/js/pa-xxxx.js` |
 
 One-time RackNerd prep:
 
