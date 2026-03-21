@@ -17,8 +17,13 @@ jobs:
             git init .
             git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
           fi
-          git -c "http.extraHeader=Authorization: token ${GITHUB_TOKEN}" fetch --depth 1 origin "${GITHUB_SHA}"
+          # Always deploy the current remote main tip for this workflow.
+          # This avoids stale SHA metadata issues from runner/event context.
+          git -c "http.extraHeader=Authorization: token ${GITHUB_TOKEN}" fetch --prune --depth 1 origin "refs/heads/main"
           git checkout --force FETCH_HEAD
+          git clean -fdx
+          echo "Deploying commit: $(git rev-parse HEAD)"
+          git show -s --format='%h %ci %s'
 
       - name: Build site
         env:
