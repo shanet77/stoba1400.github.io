@@ -23,7 +23,7 @@ jobs:
           git checkout --force FETCH_HEAD
           git clean -fdx
           echo "Deploying commit: $(git rev-parse HEAD)"
-          git show -s --format='%h %ci %s'
+          git --no-pager show -s --format='%h %ci %s'
 
       - name: Build site
         env:
