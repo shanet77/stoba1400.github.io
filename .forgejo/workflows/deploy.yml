@@ -96,5 +96,6 @@ jobs:
 
           SSH_OPTS="-i $KEY_PATH -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts -p $DEPLOY_PORT"
 
+          ssh $SSH_OPTS "$DEPLOY_USER@$DEPLOY_HOST" "echo DEPLOY_REMOTE_HOST=\$(hostname) DEPLOY_REMOTE_USER=\$(whoami); date -u; ls -ld '$DEPLOY_PATH' || true"
           ssh $SSH_OPTS "$DEPLOY_USER@$DEPLOY_HOST" "mkdir -p '$DEPLOY_PATH' && find '$DEPLOY_PATH' -mindepth 1 -maxdepth 1 -exec rm -rf {} +"
           cat /tmp/site-dist.tgz | ssh $SSH_OPTS "$DEPLOY_USER@$DEPLOY_HOST" "tar -xzf - -C '$DEPLOY_PATH'"
