@@ -31,11 +31,11 @@ That's it, pretty much.
 - GG Jackson
 - Jay Huff
 - Justin Champagnie
-- Maxime Reynaud
+- Maxime Raynaud
 
 ## Current Scores
 
-### Team Scores Table (LAST UPDATED 03-05-2026)
+### Team Scores Table (LAST UPDATED 03-21-2026)
 
 | Team              | Player             | Score | Total |
 |-------------------|--------------------|-------|-------|
@@ -49,10 +49,14 @@ That's it, pretty much.
 | Bryce             | GG Jackson         | 0     |       |
 | Bryce             | Jay Huff           | 0     |       |
 | Bryce             | Justin Champennie  | 0     |       |
-| Bryce             | Maxime Reynaud     | 0     |       |
-| **Bryce's Total** |                    |       | **0** |
+| Bryce             | Maxime Raynaud     | 2     |       |
+| **Bryce's Total** |                    |       | **2** |
 
 ## Notes
 GG Jackson has to be a cheat code on this. He's been so close already (24pts and 28pts) and has proven to be an [end-of-season offensive machine](https://www.basketball-reference.com/players/j/jacksgg01/gamelog/2024). Also, considering how bad the Grizzlies are, Jackson might single-handedly carry Bryce's team.
+
+### 03/21/26
+- I did not expect Raynaud to be the first on the board, even less so to do it twice. Props to him!
+- Dillingham likely won't make it on the board, but I have to say that he was impressive against the Cavs. The shiftiness was ever-apparent and it seems like his confidence is there which is critical to his game. His shot is consistently short though which seems as though it may be from releasing a __little__ too late. Rooting for him though.
 
 [^1]: I miss Down2Buck... where am I going to get my obscure 23pt game from the 11th man on a lottery team?
