@@ -162,6 +162,9 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.8
         version: 0.9.8(prettier-plugin-astro@0.14.1)(prettier@3.8.1)(typescript@5.9.3)
+      '@astrojs/internal-helpers':
+        specifier: 0.8.0
+        version: 0.8.0
       '@biomejs/biome':
         specifier: 2.4.8
         version: 2.4.8

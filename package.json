@@ -87,6 +87,7 @@
 	},
 	"devDependencies": {
 		"@astrojs/check": "^0.9.8",
+		"@astrojs/internal-helpers": "0.8.0",
 		"@biomejs/biome": "2.4.8",
 		"@clack/prompts": "^1.1.0",
 		"@rollup/plugin-yaml": "^4.1.2",

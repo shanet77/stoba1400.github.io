@@ -1,5 +1,5 @@
 <script lang="ts">
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { getRelativeLocaleUrl } from "$utils/get-relative-locale-url";
 import { onMount, type Snippet } from "svelte";
 import config, { monolocale } from "$config";
 import i18nit from "$i18n";
