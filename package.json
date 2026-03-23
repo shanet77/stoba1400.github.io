@@ -49,7 +49,7 @@
 		"astro": "^5.18.0",
 		"astro-icon": "^1.1.5",
 		"feed": "^5.2.0",
-		"h3": "2.0.1-rc.14",
+		"h3": "2.0.1-rc.18",
 		"hastscript": "^9.0.1",
 		"luxon": "^3.7.2",
 		"mdast-util-to-string": "^4.0.0",
