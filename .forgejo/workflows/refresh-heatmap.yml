@@ -1,0 +1,60 @@
+name: Refresh Forgejo heatmap snapshot
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+jobs:
+  refresh-heatmap:
+    runs-on: linux-amd64
+    steps:
+      - name: Checkout repository
+        run: |
+          set -euo pipefail
+          if [ ! -d .git ]; then
+            git init .
+            git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+          fi
+          git -c "http.extraHeader=Authorization: token ${GITHUB_TOKEN}" fetch --prune --depth 1 origin "refs/heads/main"
+          git checkout --force FETCH_HEAD
+          git clean -fdx
+          echo "Refreshing heatmap at commit: $(git rev-parse HEAD)"
+
+      - name: Generate heatmap snapshot
+        env:
+          NODE_VERSION: "22.15.1"
+          FORGEJO_HEATMAP_URL: "https://forge.shanenet.xyz/api/v1/users/shane/heatmap"
+          FORGEJO_HEATMAP_TIMEZONE: "America/Chicago"
+          FORGEJO_HEATMAP_MONTHS: "4"
+          FORGEJO_HEATMAP_OUTPUT: "public/data/forgejo-heatmap.json"
+        run: |
+          set -euo pipefail
+
+          NODE_ROOT="$HOME/.local/node-v${NODE_VERSION}-linux-x64"
+          if [ ! -x "$NODE_ROOT/bin/node" ]; then
+            mkdir -p "$HOME/.local"
+            curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" -o /tmp/node.tar.xz
+            tar -xJf /tmp/node.tar.xz -C "$HOME/.local"
+          fi
+
+          export PATH="$NODE_ROOT/bin:$PATH"
+          corepack enable
+          corepack prepare pnpm@10.30.3 --activate
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm generate:heatmap
+
+      - name: Commit and push snapshot
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- public/data/forgejo-heatmap.json; then
+            echo "No heatmap changes to commit."
+            exit 0
+          fi
+
+          git config user.name "forgejo-actions[bot]"
+          git config user.email "forgejo-actions[bot]@users.noreply.local"
+          git add public/data/forgejo-heatmap.json
+          git commit -m "chore: refresh Forgejo heatmap snapshot"
+          git -c "http.extraHeader=Authorization: token ${GITHUB_TOKEN}" push origin HEAD:main

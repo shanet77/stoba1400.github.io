@@ -1,77 +1,110 @@
 <script lang="ts">
-import { getRelativeLocaleUrl } from "$utils/get-relative-locale-url";
-import { monolocale } from "$config";
-import Time from "$utils/time";
+import { onMount } from "svelte";
+import { DateTime } from "luxon";
 import i18nit from "$i18n";
+import Time from "$utils/time";
+import { buildHeatmapRenderModel, isValidSnapshot, type ForgejoHeatmapSnapshot, type HeatmapCell } from "$utils/forgejo-heatmap";
 
-let { locale, notes, jottings, weeks = 20 }: { locale: string; notes: any[]; jottings: any[]; weeks: number } = $props();
+let {
+	locale,
+	months = 4,
+	endpoint = "/data/forgejo-heatmap.json",
+	staleAfterHours = 36
+}: {
+	locale: string;
+	months?: number;
+	endpoint?: string;
+	staleAfterHours?: number;
+} = $props();
 
-const days = weeks * 7; // Convert weeks to days for heatmap
-
-// Initialize translation function for current locale
 const t = i18nit(locale);
+const defaultTimezone = Time.defaultTimezone || "UTC";
 
-// Get this week's Saturday as reference point for calculating relative dates
-const now = new Date();
-// Get day of week in the configured timezone (0 = Sunday, 6 = Saturday)
-const start = Time.addDays(now, (6 - Time.weekday(now)) % 7);
+let loading = $state(true);
+let unavailable = $state(false);
+let snapshot = $state<ForgejoHeatmapSnapshot | null>(null);
 
-// Create 140-day heatmap data structure (roughly 4+ months of activity)
-// Each day contains: date, empty arrays for notes and jottings
-const heatmap = Array.from({ length: days }, (_, day) => ({
-	date: Time.subtractDays(start, day), // Calculate date going backwards from today
-	notes: [] as any[], // Notes published on this day
-	jottings: [] as any[] // Jottings published on this day
-}));
+const model = $derived(
+	buildHeatmapRenderModel(snapshot, {
+		months,
+		timezone: snapshot?.timezone ?? defaultTimezone,
+		staleAfterHours
+	})
+);
 
-// Populate heatmap with notes data
-notes.forEach(note => {
-	// Calculate how many days ago this note was published
-	let gap = Time.diffDays(start, note.data.timestamp);
+function levelClass(cell: HeatmapCell): string {
+	switch (cell.level) {
+		case 4:
+			return "opacity-100";
+		case 3:
+			return "opacity-75";
+		case 2:
+			return "opacity-55";
+		case 1:
+			return "opacity-35";
+		default:
+			return "opacity-10";
+	}
+}
 
-	// Only include notes from the last 100 days
-	if (0 <= gap && gap < days) heatmap[gap].notes.push(note);
-});
+function localizedDate(date: string, timezone: string): string {
+	return DateTime.fromISO(date, { zone: timezone }).setLocale(locale).toLocaleString(DateTime.DATE_MED);
+}
 
-// Populate heatmap with jottings data
-jottings.forEach(jotting => {
-	// Calculate how many days ago this jotting was published
-	let gap = Time.diffDays(start, jotting.data.timestamp);
+async function loadSnapshot(): Promise<void> {
+	loading = true;
+	unavailable = false;
 
-	// Only include jottings from the last 100 days
-	if (0 <= gap && gap < days) heatmap[gap].jottings.push(jotting);
+	try {
+		const response = await fetch(endpoint, { headers: { accept: "application/json" } });
+		if (!response.ok) throw new Error(`Snapshot request failed: ${response.status}`);
+
+		const payload: unknown = await response.json();
+		if (!isValidSnapshot(payload)) throw new Error("Snapshot schema is invalid");
+
+		snapshot = payload;
+		unavailable = false;
+	} catch {
+		snapshot = null;
+		unavailable = true;
+	} finally {
+		loading = false;
+	}
+}
+
+onMount(() => {
+	void loadSnapshot();
 });
 </script>
 
-<section class="grid grid-flow-col grid-rows-7 gap-1">
-	{#each heatmap.reverse() as day}
-		{@const number = day.notes.length + day.jottings.length}
-		<figure class="relative group">
-			<i class="block w-2.5 h-2.5 bg-primary {number > 2 ? 'opacity-100' : number > 1 ? 'opacity-70' : number > 0 ? 'opacity-40' : 'opacity-10'}"></i>
+<div class="flex flex-col gap-2" aria-live="polite">
+	{#if loading}
+		<p class="text-size-xs c-remark">{t("home.heatmap.loading")}</p>
+	{/if}
 
-			<div class="absolute left-0 bottom-full w-max -translate-x-1/2 flex flex-col mb-1 rd-1 px-2 py-2 text-size-xs c-background bg-primary pop">
-				<time class="font-bold">{Time.date.locale(day.date, locale)}</time>
-				{#if number > 0}
-					{#if day.notes.length > 0}
-						<p class="my-1">{t("home.heatmap.note", { count: day.notes.length })}：</p>
-						<ul class="flex flex-col gap-0.5">
-							{#each day.notes as note}
-								<a href={getRelativeLocaleUrl(locale, `/note/${monolocale ? note.id : note.id.split("/").slice(1).join("/")}`)} aria-label={note.data.title} class="ml-1 link">{note.data.title}</a>
-							{/each}
-						</ul>
-					{/if}
-					{#if day.jottings.length > 0}
-						<p class="my-1">{t("home.heatmap.jotting", { count: day.jottings.length })}：</p>
-						<ul class="flex flex-col gap-0.5">
-							{#each day.jottings as jotting}
-								<a href={getRelativeLocaleUrl(locale, `/jotting/${monolocale ? jotting.id : jotting.id.split("/").slice(1).join("/")}`)} aria-label={jotting.data.title} class="ml-1 link">{jotting.data.title}</a>
-							{/each}
-						</ul>
-					{/if}
-				{:else}
-					<p class="mt-1">{t("home.heatmap.empty")}</p>
-				{/if}
-			</div>
-		</figure>
-	{/each}
-</section>
+	{#if unavailable}
+		<p class="text-size-xs c-remark">{t("home.heatmap.unavailable")}</p>
+	{/if}
+
+	{#if !loading && !unavailable && model.stale}
+		<p class="text-size-xs c-remark">{t("home.heatmap.stale")}</p>
+	{/if}
+
+	<section class="grid grid-flow-col grid-rows-7 gap-1" aria-label={t("home.heatmap.aria")} aria-busy={loading}>
+		{#each model.cells as cell}
+			<figure class="relative group">
+				<i class={`block w-2.5 h-2.5 bg-primary ${levelClass(cell)}`}></i>
+
+				<div class="absolute left-0 bottom-full w-max -translate-x-1/2 flex flex-col mb-1 rd-1 px-2 py-2 text-size-xs c-background bg-primary pop">
+					<time class="font-bold">{localizedDate(cell.date, model.timezone)}</time>
+					<p class="mt-1">{t("home.heatmap.contribution", { count: cell.count })}</p>
+				</div>
+			</figure>
+		{/each}
+	</section>
+
+	<p class="text-size-xs c-remark">{t("home.heatmap.total", { count: model.totalContributions })}</p>
+	{#if snapshot}
+		<p class="text-size-xs c-remark">{t("home.heatmap.updated", { time: Time(snapshot.generatedAt, snapshot.timezone) })}</p>
+	{/if}
+</div>

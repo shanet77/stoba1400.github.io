@@ -96,3 +96,31 @@ mkdir -p /home/deployer/sites/personal-site
 ```
 
 If `DEPLOY_SSH_KEY` is omitted, the workflow falls back to `/home/shane/.ssh/forgejo_deploy` on the runner.
+
+## Forgejo Contribution Heatmap Snapshot
+
+This repo now includes a scheduled workflow at `.forgejo/workflows/refresh-heatmap.yml` that runs hourly and updates:
+
+- `public/data/forgejo-heatmap.json`
+
+The snapshot is generated from:
+
+- `https://forge.shanenet.xyz/api/v1/users/shane/heatmap`
+
+You can regenerate locally with:
+
+```sh
+pnpm generate:heatmap
+```
+
+Optional environment overrides for the generator:
+
+- `FORGEJO_HEATMAP_URL`
+- `FORGEJO_HEATMAP_TIMEZONE`
+- `FORGEJO_HEATMAP_MONTHS`
+- `FORGEJO_HEATMAP_WEEKS`
+- `FORGEJO_HEATMAP_OUTPUT`
+- `FORGEJO_HEATMAP_TIMEOUT_MS`
+- `FORGEJO_HEATMAP_FAIL_ON_ERROR`
+
+For caching, keep the path stable (`/data/forgejo-heatmap.json`) and configure short TTL headers at your reverse proxy / CDN layer.
