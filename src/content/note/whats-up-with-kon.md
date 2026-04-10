@@ -11,7 +11,7 @@ Knueppel is the product of genuine talent but also a team built to support him. 
 
 I believe we are hovering the 90% mark of Knueppel, that is Duncan Robinson or Malik Beasley with a slight edge in ball movement. I could even see a Desmond Bane outcome. That’s unbelievable as a rookie! Approaching Sixth Man of the Year, maybe an All-Star appearance or two. The discourse around him feels like the perception is going to falter in the coming years towards Tyreke Evans[^2] as growth stagnates.
 
-My reasons for that are due to game tape I’ve seen and a bit of historical backtesting
+My reasons for that are due to game tape I’ve seen and a bit of historical review.
 
 The top historical rookie leaders in 3pt makes, excluding Knueppel, are the following:
 
