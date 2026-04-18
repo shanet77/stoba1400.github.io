@@ -34,7 +34,7 @@ Speaking of which, the reports of Knueppel’s defense are greatly exaggerated. 
 
 To conclude my rant, Kon Knueppel is having a fantastic season and nothing can take away from that. I'm just hesistant on him as "up-next".
 
-PAQ (Potentially Asked Questions)
+## PAQ (Potentially Asked Questions)
 
 Am I a Hater?
 
@@ -43,6 +43,8 @@ Am I a Hater?
 Should He Be ROY?
 
 -   It could go either way with Flagg or Knueppel. Don’t think there’s a wrong choice this season.
+
+**EDIT (04/17):** 5/22 from the field, 1/12 from 3 in the play-in. Bright lights.
 
 [^1]: Ew.
 [^2]: What a [grade A hooper.](https://youtu.be/WzOGDBhClAY?si=l-oVNrUdb910le3l)
