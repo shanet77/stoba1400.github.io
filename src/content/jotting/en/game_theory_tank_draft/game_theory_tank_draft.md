@@ -33,24 +33,24 @@ That's it, pretty much.
 - Justin Champagnie
 - Maxime Raynaud
 
-## Current Scores
+## Final Scores
 
-### Team Scores Table (LAST UPDATED 03-21-2026)
+### Team Scores Table
 
 | Team              | Player             | Score | Total |
 |-------------------|--------------------|-------|-------|
 | Sam               | Rob Dillingham     | 0     |       |
-| Sam               | Will Riley         | 0     |       |
+| Sam               | Will Riley         | 2     |       |
 | Sam               | Walter Clayton Jr. | 0     |       |
 | Sam               | Nique Clifford     | 0     |       |
 | Sam               | Quenton Jackson    | 0     |       |
-| **Sam's Total**   |                    |       | **0** |
+| **Sam's Total**   |                    |       | **2** |
 | Bryce             | Jaden Ivey         | 0     |       |
-| Bryce             | GG Jackson         | 0     |       |
+| Bryce             | GG Jackson         | 1     |       |
 | Bryce             | Jay Huff           | 0     |       |
 | Bryce             | Justin Champennie  | 0     |       |
 | Bryce             | Maxime Raynaud     | 2     |       |
-| **Bryce's Total** |                    |       | **2** |
+| **Bryce's Total** |                    |       | **3** |
 
 ## Notes
 GG Jackson has to be a cheat code on this. He's been so close already (24pts and 28pts) and has proven to be an [end-of-season offensive machine](https://www.basketball-reference.com/players/j/jacksgg01/gamelog/2024). Also, considering how bad the Grizzlies are, Jackson might single-handedly carry Bryce's team.
@@ -58,5 +58,8 @@ GG Jackson has to be a cheat code on this. He's been so close already (24pts and
 ### 03/21/26
 - I did not expect Raynaud to be the first on the board, even less so to do it twice. Props to him!
 - Dillingham likely won't make it on the board, but I have to say that he was impressive against the Cavs. The shiftiness was ever-apparent and it seems like his confidence is there which is critical to his game. His shot is consistently short though which seems as though it may be from releasing a __little__ too late. Rooting for him though.
+
+### 04/21/26
+Regular season is over. Definitely missing some of the scoring bursts that I thought were going to happen. April was a slow one. Props to Russell Westbrook keeping Raynaud's touches high.
 
 [^1]: I miss Down2Buck... where am I going to get my obscure 23pt game from the 11th man on a lottery team?
