@@ -16,6 +16,11 @@
 		user-select: text;
 	}
 
+	// Ensure icon pseudo-elements stay neutral
+	a::after {
+		color: var(--primary-color);
+	}
+
 	h1,
 	h2 {
 		&:not(:first-child) {
@@ -44,13 +49,16 @@
 	}
 
 	a {
-		text-decoration: underline transparent 0.05em;
+		color: var(--link-color);
+		text-decoration: underline var(--link-underline-color) 0.05em;
 		text-underline-offset: 0.15em;
 
-		transition: text-decoration-color 0.15s ease-in-out;
+		transition: text-decoration-color 0.2s ease-in-out,
+		            background-color 0.2s ease-in-out;
 
 		&:hover {
 			text-decoration-color: currentColor;
+			background-color: color-mix(in srgb, var(--link-color) 6%, transparent);
 		}
 
 		.link-icon(@icon, @size, @offset) {
@@ -60,6 +68,7 @@
 
 				font-size: @size;
 				vertical-align: @offset;
+				color: var(--primary-color);
 			}
 		}
 
@@ -84,6 +93,7 @@
 	h6 {
 		&[id] {
 			a {
+				color: var(--primary-color);
 				text-decoration: none;
 
 				&::after {
@@ -93,11 +103,16 @@
 					font-size: 0.8em;
 					font-weight: normal;
 
-					opacity: 0;
-					transition: opacity 0.15s ease-in-out;
+					opacity: 0.4;
+					color: var(--primary-color);
+					transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
 				}
 
 				&:hover::after {
+					opacity: 1;
+				}
+
+				&:focus-visible::after {
 					opacity: 1;
 				}
 			}
@@ -268,7 +283,9 @@
 		vertical-align: baseline;
 		font-size: 1em;
 
-		transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+
+		color: var(--link-color);
 
 		&:hover {
 			color: var(--background-color);
@@ -276,6 +293,7 @@
 		}
 
 		a {
+			color: var(--primary-color);
 			text-decoration: none;
 
 			&::before {
@@ -316,7 +334,7 @@
 					padding: 0 0.25em;
 
 					text-decoration: none;
-					transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+					transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 
 					&:hover {
 						color: var(--background-color);
