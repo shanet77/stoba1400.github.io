@@ -24,9 +24,9 @@ For basic configuration, refer to the [Site Configuration Guide](src/content/not
 
 For i18n configuration, refer to the [Internationalization Configuration Guide](src/content/note/en/internationalization.md).
 
-### Plausible Analytics (Optional)
+### Umami Analytics (Optional)
 
-Keep your Plausible domain/script out of committed source by storing it in `.env`:
+Keep your Umami website ID out of committed source by storing it in `.env`:
 
 ```sh
 cp .env.example .env
@@ -35,10 +35,10 @@ cp .env.example .env
 Then set:
 
 ```sh
-PUBLIC_PLAUSIBLE_SCRIPT_SRC=https://plausible.your-domain.com/js/pa-your-script-id.js
+PUBLIC_UMAMI_WEBSITE_ID=f84a92b0-dfb9-481b-85e1-9b3143061c91
 ```
 
-If `PUBLIC_PLAUSIBLE_SCRIPT_SRC` is empty, no analytics script is injected.
+The script is sourced from `https://cloud.umami.is/script.js`. If `PUBLIC_UMAMI_WEBSITE_ID` is empty, no analytics script is injected.
 
 ## Commands
 
@@ -87,7 +87,7 @@ Configure these repository secrets in Forgejo:
 | `DEPLOY_PATH` | `/home/deployer/sites/personal-site` |
 | `DEPLOY_SSH_KEY` | optional private key used by the runner to SSH to RackNerd |
 | `DEPLOY_HOST_KEY` | optional pinned host key line from `ssh-keyscan -H <host>` |
-| `PUBLIC_PLAUSIBLE_SCRIPT_SRC` | optional, e.g. `https://plausible.example.com/js/pa-xxxx.js` |
+| `PUBLIC_UMAMI_WEBSITE_ID` | optional, e.g. `f84a92b0-dfb9-481b-85e1-9b3143061c91` |
 
 One-time RackNerd prep:
 

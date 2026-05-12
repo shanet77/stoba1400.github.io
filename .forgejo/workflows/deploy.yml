@@ -28,7 +28,7 @@ jobs:
       - name: Build site
         env:
           NODE_VERSION: "22.15.1"
-          PUBLIC_PLAUSIBLE_SCRIPT_SRC: ${{ secrets.PUBLIC_PLAUSIBLE_SCRIPT_SRC }}
+          PUBLIC_UMAMI_WEBSITE_ID: ${{ secrets.PUBLIC_UMAMI_WEBSITE_ID }}
         run: |
           set -euo pipefail
 

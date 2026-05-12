@@ -1,6 +1,6 @@
 ---
 const { title, subtitle, description, author, article } = Astro.props;
-const plausibleScriptSrc = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_SRC?.trim();
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID?.trim();
 
 // Locale-specific Noto Serif font mappings for Google Fonts
 const notoFonts: Record<string, string> = {
@@ -47,20 +47,9 @@ const notoFonts: Record<string, string> = {
 			if (theme) document.documentElement.dataset.theme = theme;
 		</script>
 
-		{plausibleScriptSrc && (
-			<>
-				<!-- Privacy-friendly analytics by Plausible -->
-				<script async src={plausibleScriptSrc}></script>
-				<script is:inline>
-					window.plausible = window.plausible || function () {
-						(plausible.q = plausible.q || []).push(arguments);
-					};
-					plausible.init = plausible.init || function (i) {
-						plausible.o = i || {};
-					};
-					plausible.init();
-				</script>
-			</>
+		{umamiWebsiteId && (
+			<!-- Privacy-friendly analytics by Umami -->
+			<script defer src="https://cloud.umami.is/script.js" data-website-id={umamiWebsiteId}></script>
 		)}
 	</head>
 	<body>
