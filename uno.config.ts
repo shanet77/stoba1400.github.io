@@ -1,8 +1,10 @@
 import { defineConfig } from "unocss";
 import VariantGroup from "@unocss/transformer-variant-group";
 import Directives from "@unocss/transformer-directives";
+import extractorSvelte from "@unocss/extractor-svelte";
 
 export default defineConfig({
+	extractors: [extractorSvelte()],
 	transformers: [VariantGroup(), Directives()],
 	rules: [["invisible", { visibility: "hidden" }]],
 	shortcuts: [
