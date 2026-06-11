@@ -4,6 +4,8 @@ import config, { monolocale } from "$config";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import i18nit from "$i18n";
+import { readdirSync } from "node:fs";
+import { join } from "node:path";
 
 export async function getStaticPaths() {
 	// Create path for each locale, omitting default locale from URL
@@ -15,6 +17,14 @@ const { locale = config.i18n.defaultLocale } = Astro.params;
 const t = i18nit(locale);
 
 const introduction = await getEntry("information", `${locale}/introduction`);
+
+const stickersDir = join(process.cwd(), "public", "stickers");
+const stickers = readdirSync(stickersDir)
+	.filter(f => /\.jpe?g$/i.test(f))
+	.map(f => ({
+		name: f.replace(/\.jpe?g$/i, ""),
+		ext: f.match(/\.jpe?g$/i)?.[0] ?? ".jpg"
+	}));
 ---
 
 <style lang="less">
@@ -44,26 +54,11 @@ const introduction = await getEntry("information", `${locale}/introduction`);
 						<p>A collection of images that I like across the internet displayed here as stickers.</p>
 						</div>
 						<div class="gallery">
-              <a href="/stickers/Nance_Patrick_Run" target="_blank">
-                <img src="/stickers/Nance_Patrick_Run.jpg" alt="Larry Nance Running as Patrick" width="120">
-              </a>
-
-              <a href="/stickers/Nance_Patrick_Stare" target="_blank">
-                <img src="/stickers/Nance_Patrick_Stare.jpg" alt="Larry Nance Stare as Patrick" width="120">
-              </a>
-
-							<a href="/stickers/girk" target="_blank">
-                <img src="/stickers/girk.jpg" alt="Girk Movie Poster" width="120">
-              </a>
-
-							<a href="/stickers/pim_earth" target="_blank">
-                <img src="/stickers/pim_earth.jpg" alt="Pim Finds Out the Earth is Flat" width="120">
-              </a>
-
-							<a href="/stickers/bubble_shai" target="_blank">
-                <img src="/stickers/bubble_shai.jpg" alt="bubble_shai" width="120">
-              </a>
-
+							{stickers.map(s => (
+								<a href={`/stickers/${s.name}`} target="_blank">
+									<img src={`/stickers/${s.name}${s.ext}`} alt={s.name} width="120" />
+								</a>
+							))}
             </div>
 					</div>
 				)
