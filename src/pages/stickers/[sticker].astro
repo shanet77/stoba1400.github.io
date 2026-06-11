@@ -8,7 +8,7 @@ import config from "$config";
 
 export async function getStaticPaths() {
 	const stickersDir = join(process.cwd(), "public", "stickers");
-	const files = readdirSync(stickersDir).filter(f => f.endsWith(".jpg"));
+	const files = readdirSync(stickersDir).filter(f => /\.jpe?g$/i.test(f));
 	return files.map(file => ({
 		params: { sticker: file.replace(/\.jpg$/i, "") }
 	}));
