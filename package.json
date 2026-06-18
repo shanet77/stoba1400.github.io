@@ -25,7 +25,7 @@
 		"new": "tsx --loader esm-loader-yaml scripts/new.ts",
 		"dev": "astro dev",
 		"check": "astro check",
-		"test": "tsx --test src/utils/forgejo-heatmap.test.ts",
+		"test": "tsx --test src/utils/forgejo-heatmap.test.ts src/utils/remark/years-since.test.ts",
 		"generate:heatmap": "tsx scripts/generate-forgejo-heatmap.ts",
 		"build": "astro build",
 		"preview": "astro preview",

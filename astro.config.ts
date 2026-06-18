@@ -33,6 +33,7 @@ import wrapper from "./src/utils/remark/table-wrapper";
 import copy from "./src/utils/code-copy";
 import reading from "./src/utils/remark/reading";
 import figure from "./src/utils/remark/figure";
+import yearsSince from "./src/utils/remark/years-since";
 
 import siteConfig from "./site.config";
 
@@ -67,6 +68,7 @@ export default defineConfig({
 			directive,
 			ruby,
 			[alerts, { legacyTitle: true }],
+			yearsSince,
 			reading
 		],
 		remarkRehype: {
