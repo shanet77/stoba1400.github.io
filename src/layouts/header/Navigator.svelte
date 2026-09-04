@@ -13,6 +13,7 @@ let {
 	note,
 	jotting,
 	about,
+	play,
 	sticker,
 	globe,
 	rss,
@@ -31,6 +32,7 @@ const routes: { path: string; extra?: string[]; icon: Snippet; label: string }[]
 	{ label: t("navigation.note"), path: getRelativeLocaleUrl(locale, "/note"), icon: note },
 	{ label: t("navigation.jotting"), path: getRelativeLocaleUrl(locale, "/jotting"), icon: jotting },
 	{ label: t("navigation.about"), path: getRelativeLocaleUrl(locale, "/about"), icon: about },
+	{ label: t("navigation.play"), path: getRelativeLocaleUrl(locale, "/play"), icon: play },
 	{ label: t("navigation.stickers"), path: getRelativeLocaleUrl(locale, "/stickers"), icon: sticker }
 ];
 

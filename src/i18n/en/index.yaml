@@ -33,10 +33,18 @@ navigation:
   home: Home
   jotting: Jotting
   note: Note
+  play: Play
   stickers: Stickers
   policy: Policy
   preface: Preface
   subscription: Subscription
+play:
+  description: Play HoopNerd vs CPU — connect NBA players who shared a team in the same season.
+  hint: The game runs on
+  loading: Loading the game...
+  openDirect: Open HoopNerd directly
+  unavailable: HoopNerd is unavailable right now
+  unavailableDetail: The game server may be down. You can still play the full version directly.
 note:
   contents: Contents
   empty: No notes available

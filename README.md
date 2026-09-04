@@ -97,6 +97,37 @@ mkdir -p /home/deployer/sites/personal-site
 
 If `DEPLOY_SSH_KEY` is omitted, the workflow falls back to `/home/shane/.ssh/forgejo_deploy` on the runner.
 
+## Local `/play` Development (HoopNerd Embed)
+
+The `/play` page embeds the HoopNerd CPU game in a sandboxed iframe.
+To test it locally you need HoopNerd running (see the
+[HoopNerd README](https://github.com/shanet77/hoopnerd)
+“Local Development” section — Postgres + seed, then `pnpm dev`).
+
+```sh
+# Terminal 1 — HoopNerd (from the hoopnerd repo).
+# The env var lets the embed's ready/game-over messages reach your
+# local Astro page instead of only the production domain.
+NEXT_PUBLIC_EMBED_PARENT_ORIGINS=http://localhost:4321 pnpm dev
+
+# Terminal 2 — this site, pointed at local HoopNerd.
+PUBLIC_HOOPNERD_EMBED_ORIGIN=http://localhost:3000 pnpm dev
+```
+
+Then open <http://localhost:4321/play> and play a full game vs the CPU.
+
+Notes:
+
+- Without `PUBLIC_HOOPNERD_EMBED_ORIGIN`, `/play` points at
+  `https://hoopnerd.xyz/embed/cpu` (the production default).
+- Without `NEXT_PUBLIC_EMBED_PARENT_ORIGINS` on the HoopNerd side, the
+  game still plays, but the parent page never receives the `ready` ping —
+  so the loader spins for 15s and shows the “unavailable” fallback. Set
+  the var; it is dev-only and never deployed.
+- `/play` is excluded from Swup transitions (`ignore` in
+  `astro.config.ts`), so visiting it is always a full page load — the
+  iframe socket state is never half-preserved across navigation.
+
 ## Forgejo Contribution Heatmap Snapshot
 
 This repo now includes a scheduled workflow at `.forgejo/workflows/refresh-heatmap.yml` that runs hourly and updates:

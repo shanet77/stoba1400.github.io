@@ -1,0 +1,126 @@
+---
+import config, { monolocale } from "$config";
+import Base from "$layouts/Base.astro";
+import Icon from "$components/Icon.astro";
+import i18nit from "$i18n";
+
+export async function getStaticPaths() {
+	// Create path for each locale, omitting default locale from URL
+	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
+}
+
+const { locale = config.i18n.defaultLocale } = Astro.params;
+
+const t = i18nit(locale);
+
+// Production embed target. Local dev can point at a HoopNerd checkout via
+// PUBLIC_HOOPNERD_EMBED_ORIGIN=http://localhost:3000.
+const embedOrigin = (import.meta.env.PUBLIC_HOOPNERD_EMBED_ORIGIN ?? "https://hoopnerd.xyz").replace(/\/+$/, "");
+const embedUrl = `${embedOrigin}/embed/cpu`;
+---
+
+<Base title={t("navigation.play")} {locale} description="Play HoopNerd vs CPU — connect NBA players who shared a team-season.">
+	<main class="flex flex-col gap-6">
+		<header class="flex flex-col gap-2">
+			<h1 class="text-3xl">{t("navigation.play")}</h1>
+			<p class="c-secondary">{t("play.description")}</p>
+		</header>
+
+		<div id="hoopnerd-status" class="hidden items-center gap-2 rd-2 border-2 b-weak p-3 text-sm font-bold" role="status" aria-live="polite"></div>
+
+		<div class="relative w-full overflow-hidden rd-3 border-2 b-weak">
+			<div id="hoopnerd-loader" class="flex flex-col items-center justify-center gap-3 p-12 c-secondary">
+				<Icon name="lucide:loader-circle" />
+				<p>{t("play.loading")}</p>
+			</div>
+			<iframe
+				id="hoopnerd-frame"
+				title="HoopNerd vs CPU"
+				src={embedUrl}
+				class="hidden h-[80dvh] min-h-[560px] w-full border-0"
+				referrerpolicy="strict-origin-when-cross-origin"
+				allow="clipboard-write"
+				sandbox="allow-scripts allow-same-origin allow-forms"
+			></iframe>
+			<div id="hoopnerd-fallback" class="hidden flex-col items-center gap-3 p-12 text-center">
+				<p class="text-lg font-bold">{t("play.unavailable")}</p>
+				<p class="c-secondary text-sm">{t("play.unavailableDetail")}</p>
+				<a href="https://hoopnerd.xyz" target="_blank" rel="noopener noreferrer" class="link font-bold">{t("play.openDirect")}</a>
+			</div>
+		</div>
+
+		<p class="c-remark text-sm">
+			{t("play.hint")}
+			<a href="https://hoopnerd.xyz" target="_blank" rel="noopener noreferrer" class="link">hoopnerd.xyz</a>.
+		</p>
+	</main>
+</Base>
+
+<script define:vars={{ embedOrigin }}>
+	// Swup (reloadScripts:true) re-executes this inline script on every
+	// visit to /play, but the `message` listener lives on `window` and
+	// would stack — register it once. Per-message element lookups stay
+	// fresh because Swup replaces <main> each navigation.
+	if (!window.__hoopnerdPlayListener) {
+		window.__hoopnerdPlayListener = event => handleHoopnerdMessage(event, embedOrigin);
+		window.addEventListener("message", window.__hoopnerdPlayListener);
+	}
+	initHoopnerdPlay();
+
+	function handleHoopnerdMessage(event, origin) {
+		// Mitigation: never trust event.data without an exact origin check.
+		const allowed = new Set([origin, "https://hoopnerd.xyz", "https://www.hoopnerd.xyz"]);
+		if (!allowed.has(event.origin)) return;
+		const data = event.data;
+		if (!data || typeof data !== "object") return;
+
+		const frame = document.getElementById("hoopnerd-frame");
+		const loader = document.getElementById("hoopnerd-loader");
+		const fallback = document.getElementById("hoopnerd-fallback");
+		const status = document.getElementById("hoopnerd-status");
+
+		if (data.type === "hoopnerd:ready") {
+			window.__hoopnerdReady = true;
+			if (window.__hoopnerdReadyTimeout) window.clearTimeout(window.__hoopnerdReadyTimeout);
+			loader?.classList.add("hidden");
+			loader?.classList.remove("flex");
+			fallback?.classList.add("hidden");
+			fallback?.classList.remove("flex");
+			frame?.classList.remove("hidden");
+			return;
+		}
+
+		if (data.type === "hoopnerd:game-over" && typeof data.winnerName === "string" && typeof data.humanWon === "boolean" && typeof data.moves === "number") {
+			if (!status) return;
+			const moves = Number.isFinite(data.moves) ? Math.max(0, Math.trunc(data.moves)) : 0;
+			const name = data.winnerName.slice(0, 32);
+			status.classList.remove("hidden");
+			status.classList.add("flex");
+			status.textContent = data.humanWon ? `You beat BronBot in ${moves} moves.` : `${name} wins. Run it back?`;
+		}
+	}
+
+	function initHoopnerdPlay() {
+		const loader = document.getElementById("hoopnerd-loader");
+		const frame = document.getElementById("hoopnerd-frame");
+		const fallback = document.getElementById("hoopnerd-fallback");
+
+		// If the game never signals readiness, assume HoopNerd is down and
+		// offer the direct link instead of an infinite spinner.
+		if (window.__hoopnerdReadyTimeout) window.clearTimeout(window.__hoopnerdReadyTimeout);
+		window.__hoopnerdReadyTimeout = window.setTimeout(() => {
+			if (window.__hoopnerdReady) return;
+			loader?.classList.add("hidden");
+			loader?.classList.remove("flex");
+			frame?.classList.add("hidden");
+			fallback?.classList.remove("hidden");
+			fallback?.classList.add("flex");
+		}, 15000);
+	}
+</script>
+
+<style lang="less">
+	#hoopnerd-frame {
+		background: var(--block-color);
+	}
+</style>

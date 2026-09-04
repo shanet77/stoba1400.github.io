@@ -123,7 +123,10 @@ export default defineConfig({
 			globalInstance: true,
 			preload: false,
 			smoothScrolling: false,
-			progress: true
+			progress: true,
+			// Full reload for /play: the HoopNerd iframe holds live socket
+			// state that must not survive a Swup container swap.
+			ignore: ["/play"]
 		}),
 		UnoCSS({
 			injectReset: "@unocss/reset/normalize.css"
