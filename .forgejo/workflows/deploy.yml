@@ -75,6 +75,9 @@ jobs:
           mkdir -p "$HOME/.ssh"
           chmod 700 "$HOME/.ssh"
 
+          # NOTE: the runner's ~/.ssh/forgejo_deploy is a legacy key for user 'shane'.
+          # After the deployer migration, DEPLOY_SSH_KEY is required — the
+          # fallback below only exists for runners not yet provisioned.
           if [ -n "${DEPLOY_SSH_KEY:-}" ]; then
             KEY_PATH="$HOME/.ssh/id_ed25519"
             printf '%s\n' "$DEPLOY_SSH_KEY" > "$KEY_PATH"
