@@ -80,7 +80,7 @@ onMount(() => {
 <div role="button" onclick={() => (menu = false)} class:pointer-events-none={!menu} class:bg-transparent={!menu} class="fixed top-0 left-0 w-screen h-screen pointer-events-auto bg-#aaaaaa88 transition-background-color sm:hidden"></div>
 
 <nav bind:this={navigator} class:translate-x-full={!menu} class="fixed top-0 right-0 flex flex-col justify-between items-start gap-5 p-5 bg-background h-full sm:contents overflow-hidden transition-transform">
-	<header class="grid gap-5 c-secondary grid-rows-[repeat(5,1fr)] sm:(grid-rows-none grid-cols-[repeat(5,1fr)])">
+	<header class="grid gap-5 c-secondary grid-rows-[repeat(7,auto)] whitespace-nowrap sm:(grid-rows-none grid-cols-[repeat(6,auto)] gap-2 items-center)">
 		<button onclick={() => (menu = false)} class="sm:hidden">{@render close()}</button>
 
 		{#each routes as item}
@@ -91,7 +91,7 @@ onMount(() => {
 		{/each}
 	</header>
 
-	<footer class="flex flex-col gap-2 sm:gap-5 sm:(flex-row gap-7)">
+	<footer class="flex flex-col gap-2 sm:(flex-row items-center gap-3)">
 		<ThemeSwitcher {sun} {moon} />
 
 		<a href={getRelativeLocaleUrl(locale, "/feed.xml")} target="_blank" aria-label="Subscription" class="inline-flex">{@render rss()}</a>
@@ -119,7 +119,7 @@ onMount(() => {
 
 			p,
 			span {
-				padding: 5px 10px;
+				padding: 5px 8px;
 				text-align: center;
 			}
 

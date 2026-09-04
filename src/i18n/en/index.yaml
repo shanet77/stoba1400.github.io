@@ -16,10 +16,10 @@ feed:
 home:
   heatmap:
     aria: Forgejo contribution activity heatmap
-    contribution: '{count} contributions'
+    contribution: "{count} contributions"
     loading: Loading contribution data...
     stale: Contribution data may be stale.
-    total: '{count} contributions in the last 4 months'
+    total: "{count} contributions in the last 4 months"
     unavailable: Contribution data unavailable.
     updated: Updated {time}
   latest: Latest
@@ -33,13 +33,13 @@ navigation:
   home: Home
   jotting: Jotting
   note: Note
-  play: Play
+  play: Games
   stickers: Stickers
   policy: Policy
   preface: Preface
   subscription: Subscription
 play:
-  description: Play HoopNerd vs CPU — connect NBA players who shared a team in the same season.
+  description: Play HoopNerd
   hint: The game runs on
   loading: Loading the game...
   openDirect: Open HoopNerd directly
