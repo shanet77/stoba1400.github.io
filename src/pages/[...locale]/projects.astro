@@ -1,0 +1,36 @@
+---
+import config from "$config";
+import Base from "$layouts/Base.astro";
+import i18nit from "$i18n";
+
+export async function getStaticPaths() {
+	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
+}
+
+const { locale = config.i18n.defaultLocale } = Astro.params;
+const t = i18nit(locale);
+
+const projects = [
+	{ url: "https://quiz.shanenet.xyz", detail: "Create quizzes and whatnot" },
+	{ url: "https://hoopnerd.xyz", detail: "NBA connection game" },
+	{ url: "https://steam2.shanenet.xyz", detail: "Old steam games index" }
+];
+---
+
+<Base title={t("navigation.projects")} {locale}>
+	<main class="flex flex-col gap-6">
+		<h1 class="text-3xl">{t("navigation.projects")}</h1>
+		<ul class="flex flex-col gap-4 list-none p-0">
+			{
+				projects.map(p => (
+					<li>
+						<a href={p.url} target="_blank" rel="noopener noreferrer" class="link text-lg font-bold">
+							{p.url.replace("https://", "")}
+						</a>
+						<p class="c-secondary text-sm m-0">{p.detail}</p>
+					</li>
+				))
+			}
+		</ul>
+	</main>
+</Base>
