@@ -1,0 +1,34 @@
+---
+import Icon from "$components/Icon.astro";
+import i18nit from "$i18n";
+import type { LmkEndpoint } from "$utils/lmk";
+
+const { locale, endpoint } = Astro.props as { locale: string; endpoint: LmkEndpoint };
+const t = i18nit(locale);
+---
+
+<aside
+	class="flex flex-col gap-2 rd-2 border-2 b-weak p-4"
+	data-lmk-endpoint={endpoint.url}
+	data-lmk-notify={t("lmk.notify")}
+	data-lmk-watching={t("lmk.watching")}
+	data-lmk-check={t("lmk.check")}
+	data-lmk-unwatch={t("lmk.unwatch")}
+	data-lmk-fired={t("lmk.fired")}
+>
+	<p class="flex items-center gap-2 font-bold">
+		<Icon name="lucide:bell-ring" />{t("lmk.title")}
+	</p>
+	<p class="c-secondary text-sm">{endpoint.purpose}</p>
+	<p class="text-sm">{t("lmk.loading")}</p>
+</aside>
+
+<script is:inline src="/lmk.js"></script>
+<script>
+	function mountLmk() {
+		(globalThis as any).LMK?.mount(document); // defined by /lmk.js (vendored from lmk-proto)
+	}
+	mountLmk();
+	document.addEventListener("astro:after-swap", mountLmk);
+	document.addEventListener("astro:page-load", mountLmk);
+</script>

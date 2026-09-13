@@ -7,8 +7,10 @@ import Base from "$layouts/Base.astro";
 import Icon from "$components/Icon.astro";
 import TOC from "$components/TOC.astro";
 import Position from "$components/Position.astro";
+import LmkNotify from "$components/LmkNotify.astro";
 import Sensitive from "$components/Sensitive.svelte";
 import i18nit from "$i18n";
+import { endpointForNote, loadLmkEndpoints } from "$utils/lmk-endpoints";
 
 export async function getStaticPaths() {
 	// Get all notes excluding drafts
@@ -62,6 +64,8 @@ for (const item of headings) {
 }
 
 const t = i18nit(locale);
+
+const lmkEndpoint = endpointForNote(note.id, await loadLmkEndpoints());
 ---
 
 <Base title={note.data.title} {locale} description={note.data.description} article={{ timestamp: note.data.timestamp, section: note.data.series, tags: note.data.tags }}>
@@ -108,6 +112,8 @@ const t = i18nit(locale);
 				}
 			</div>
 		</Sensitive>
+
+		{lmkEndpoint && !lmkEndpoint.happened && <LmkNotify {locale} endpoint={lmkEndpoint} />}
 
 		<Position {locale} />
 	</main>

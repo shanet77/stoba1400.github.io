@@ -52,6 +52,14 @@ note:
   series: Series
   tag: Tag
   top: To Top
+lmk:
+  title: Want the next one?
+  notify: Let me know when this happens
+  watching: Watching, you'll be flagged here when it happens.
+  check: Check now
+  unwatch: Stop watching
+  fired: It's happened
+  loading: Checking for updates…
 read:
   words: "{words} words"
 # sensitive:
