@@ -4,18 +4,34 @@
 	section {
 		display: flex;
 		flex-direction: column;
-		gap: 0.8em;
+		gap: 1.5rem;
 
 		width: 100%;
 	}
 
-	line-height: 1.75;
+	font-size: 1.2rem;
+	line-height: 1.65;
 	word-wrap: break-word;
-	max-width: 68ch;
+	max-width: 46rem;
 	margin-inline: auto;
 	hyphens: auto;
 	-webkit-hyphenate-limit-lines: 3;
 	-hyphenate-limit-chars: 14;
+	text-rendering: optimizeLegibility;
+	font-variant-numeric: oldstyle-nums proportional-nums;
+
+	p {
+		text-wrap: pretty;
+		text-align: justify;
+	}
+
+	@media screen and (max-width: 640px) {
+		font-size: 1.05rem;
+
+		p {
+			text-align: left;
+		}
+	}
 
 	* {
 		user-select: text;
@@ -27,27 +43,26 @@
 	}
 
 	h1,
+	h2,
+	h3 {
+		line-height: 1.2;
+		text-wrap: balance;
+	}
+
+	h1,
 	h2 {
 		&:not(:first-child) {
-			margin-top: 0.5em;
+			margin-top: 1.2em;
 		}
 	}
 
 	h1 {
-		align-self: flex-start;
-
-		border-bottom: 4px solid;
-		padding-bottom: 0.2em;
-
 		font-size: 1.75rem;
 		letter-spacing: -0.02em;
 	}
 
 	h2 {
-		align-self: flex-start;
-
-		border-bottom: 2px solid;
-		padding-bottom: 0.1em;
+		font-size: 1.4rem;
 		letter-spacing: -0.015em;
 	}
 
@@ -58,16 +73,6 @@
 		letter-spacing: -0.01em;
 	}
 
-	// Drop cap on first paragraph of article
-	> p:first-of-type {
-		&::first-letter {
-			font-size: 3.5em;
-			float: left;
-			line-height: 0.7;
-			margin: 0.1em 0.15em 0 0;
-			color: var(--primary-color);
-		}
-	}
 
 	hr {
 		border-bottom: 1px dashed var(--remark-color);
@@ -147,7 +152,11 @@
 
 	ul,
 	ol {
-		padding-left: 1.2em;
+		padding-left: 1.5em;
+	}
+
+	li + li {
+		margin-top: 0.4em;
 	}
 
 	ul.contains-task-list {
@@ -206,9 +215,9 @@
 		> code {
 			display: block;
 
-			padding: 1em;
+			padding: 1.25em 1.4em;
 
-			line-height: 1.5;
+			line-height: 1.7;
 		}
 	}
 
