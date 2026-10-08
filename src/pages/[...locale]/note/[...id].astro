@@ -1,7 +1,8 @@
 ---
 import type { MarkdownHeading } from "astro";
 import { getCollection, render } from "astro:content";
-import config, { monolocale } from "$config";
+import config from "$config";
+import { entryParams, localePaths } from "$utils/locale";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import Icon from "$components/Icon.astro";
@@ -13,25 +14,11 @@ import i18nit from "$i18n";
 import { endpointForNote, loadLmkEndpoints } from "$utils/lmk-endpoints";
 
 export async function getStaticPaths() {
-	// Get all notes excluding drafts
 	const notes = await getCollection("note", note => !note.data.draft);
 
 	return notes.map(note => {
-		let locale: string | undefined;
-		let id: string;
+		const { locale, id } = entryParams(note.id);
 
-		if (monolocale) {
-			locale = undefined;
-			id = note.id;
-		} else {
-			// Extract language and note ID from file path structure
-			const [language, ...ids] = note.id.split("/");
-
-			locale = config.i18n.defaultLocale === language ? undefined : language;
-			id = ids.join("/");
-		}
-
-		// Generate path params with optional locale (omit for default locale)
 		return { params: { locale, id }, props: { note } };
 	});
 }

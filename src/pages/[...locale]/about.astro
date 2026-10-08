@@ -1,13 +1,13 @@
 ---
 import { getEntry, render } from "astro:content";
-import config, { monolocale } from "$config";
+import config from "$config";
+import { localePaths } from "$utils/locale";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import i18nit from "$i18n";
 
 export async function getStaticPaths() {
-	// Create path for each locale, omitting default locale from URL
-	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
+	return localePaths();
 }
 
 const { locale = config.i18n.defaultLocale } = Astro.params;

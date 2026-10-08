@@ -1,9 +1,8 @@
 <script lang="ts">
-import { getRelativeLocaleUrl } from "$utils/get-relative-locale-url";
+import { entryUrl } from "$utils/locale";
 import { onMount, type Snippet } from "svelte";
 import { flip } from "svelte/animate";
 import { fade } from "svelte/transition";
-import { monolocale } from "$config";
 import Time from "$utils/time";
 import i18nit from "$i18n";
 
@@ -118,7 +117,7 @@ onMount(() => {
 						{#if note.data.top > 0}<span>{@render top()}</span>{/if}
 						{#if note.data.sensitive}<span>{@render sensitive()}</span>{/if}
 						{#if note.data.series}<button onclick={() => chooseSeries(note.data.series, true)}>{note.data.series}</button><b>|</b>{/if}
-						<a href={getRelativeLocaleUrl(locale, `/note/${monolocale ? note.id : note.id.split("/").slice(1).join("/")}`)} class="link">{note.data.title}</a>
+						<a href={entryUrl(locale, "note", note.id)} class="link">{note.data.title}</a>
 					</div>
 					<time datetime={note.data.timestamp.toISOString()} class="font-mono text-2.6 c-remark">{Time(note.data.timestamp)}</time>
 				</div>

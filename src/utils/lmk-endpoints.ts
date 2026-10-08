@@ -1,7 +1,7 @@
 import { getCollection } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
-import config, { monolocale } from "$config";
+import config from "$config";
 import { type LmkEndpoint, resolveLmkEndpoints } from "./lmk";
+import { entryUrl, localeOf } from "./locale";
 
 export type { LmkEndpoint };
 export { endpointForNote } from "./lmk";
@@ -15,10 +15,7 @@ export async function loadLmkEndpoints(): Promise<LmkEndpoint[]> {
 			timestamp: note.data.timestamp,
 			series: note.data.series,
 			description: note.data.description,
-			url: getRelativeLocaleUrl(
-				monolocale ? config.i18n.defaultLocale : note.id.split("/")[0],
-				`/note/${monolocale ? note.id : note.id.split("/").slice(1).join("/")}`
-			)
+			url: entryUrl(localeOf(note.id), "note", note.id)
 		})),
 		config.author.email ? `${config.author.email} <${config.author.name}>` : undefined
 	);

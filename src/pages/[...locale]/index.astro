@@ -1,16 +1,15 @@
 ---
 import { render, getCollection } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { entryUrl, getRelativeLocaleUrl, isLiveEntry, localePaths } from "$utils/locale";
 import { Icon } from "astro-icon/components";
-import config, { monolocale } from "$config";
+import config from "$config";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import Heatmap from "$components/Heatmap.svelte";
 import i18nit from "$i18n";
 
 export async function getStaticPaths() {
-	// Create path for each locale, omitting default locale from URL
-	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
+	return localePaths();
 }
 
 const { locale = config.i18n.defaultLocale } = Astro.params;
@@ -18,43 +17,22 @@ const { locale = config.i18n.defaultLocale } = Astro.params;
 const t = i18nit(locale);
 
 // Get preface content for current locale, sorted by timestamp (latest first)
-const prefaces = (
-	await getCollection("preface", preface => {
-		// Handle single locale setup
-		if (monolocale) return true;
-
-		// Extract language and ID from file path structure
-		const [language, id] = preface.id.split("/");
-		preface.id = id;
-
-		// Filter by current locale
-		return language === locale;
-	})
-).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
+const prefaces = (await getCollection("preface", preface => isLiveEntry(preface, locale))).sort(
+	(a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime()
+);
 
 // Get published notes for current locale
 const notes = await getCollection("note", note => {
-	// Assign type property
 	Reflect.set(note, "type", "note");
 
-	// Filter by publication status and locale
-	let published = !note.data.draft;
-	let localed = monolocale || note.id.split("/")[0] === locale;
-
-	// Filter published notes by current locale
-	return published && localed;
+	return isLiveEntry(note, locale);
 });
 
 // Get published jottings for current locale
 const jottings = await getCollection("jotting", jotting => {
-	// Assign type property
 	Reflect.set(jotting, "type", "jotting");
 
-	// Check monolocale setup or extract language to match locale
-	let localed = monolocale || jotting.id.split("/")[0] === locale;
-
-	// Filter published notes by current locale
-	return !jotting.data.draft && localed;
+	return isLiveEntry(jotting, locale);
 });
 
 // Combine contents
@@ -104,7 +82,7 @@ const { Content } = preface ? await render(preface) : ({} as any);
 					<blockquote class="flex-grow">
 						<h3>{t("home.latest")}</h3>
 						<div class="flex flex-col sm:flex-row justify-between gap-1 mt-2">
-							<a href={getRelativeLocaleUrl(locale, `/${latest.type}/${monolocale ? latest.id : latest.id.split("/").slice(1).join("/")}`)} class="link">
+							<a href={entryUrl(locale, latest.type ?? "note", latest.id)} class="link">
 								{latest.data.series && `${latest.data.series} | `}
 								{latest.data.title}
 							</a>

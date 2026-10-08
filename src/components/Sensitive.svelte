@@ -1,5 +1,5 @@
 <script lang="ts">
-import { getRelativeLocaleUrl } from "$utils/get-relative-locale-url";
+import { getRelativeLocaleUrl } from "$utils/locale";
 import type { Snippet } from "svelte";
 import { fade } from "svelte/transition";
 import i18nit from "$i18n";

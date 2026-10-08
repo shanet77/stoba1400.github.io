@@ -1,9 +1,8 @@
 <script lang="ts">
-import { getRelativeLocaleUrl } from "$utils/get-relative-locale-url";
+import { entryUrl } from "$utils/locale";
 import { onMount, type Snippet } from "svelte";
 import { flip } from "svelte/animate";
 import { fade } from "svelte/transition";
-import { monolocale } from "$config";
 import i18nit from "$i18n";
 import Time from "$utils/time";
 
@@ -89,7 +88,7 @@ onMount(() => {
 					<span class="flex items-center gap-1">
 						{#if jotting.data.top > 0}<span>{@render top()}</span>{/if}
 						{#if jotting.data.sensitive}<span>{@render sensitive()}</span>{/if}
-						<a href={getRelativeLocaleUrl(locale, `/jotting/${monolocale ? jotting.id : jotting.id.split("/").slice(1).join("/")}`)} class="c-primary font-600 link">{jotting.data.title}</a>
+						<a href={entryUrl(locale, "jotting", jotting.id)} class="c-primary font-600 link">{jotting.data.title}</a>
 					</span>
 					<span class="flex gap-1">
 						<time class="text-3.3 c-remark">{Time(jotting.data.timestamp)}</time>

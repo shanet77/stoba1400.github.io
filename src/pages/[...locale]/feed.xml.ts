@@ -1,14 +1,13 @@
 import type { APIRoute } from "astro";
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { getCollection, render } from "astro:content";
-import { getRelativeLocaleUrl } from "astro:i18n";
+import { entryUrl, isLiveEntry, localePaths } from "$utils/locale";
 import { Feed } from "feed";
-import config, { monolocale } from "$config";
+import config from "$config";
 import i18nit from "$i18n";
 
 export async function getStaticPaths() {
-	// Create path for each locale, omitting default locale from URL
-	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
+	return localePaths();
 }
 
 /**
@@ -42,38 +41,22 @@ export const GET: APIRoute = async ({ site, params }) => {
 	const sections = config.feed?.section || "*";
 
 	if (sections === "*" || sections.includes("note")) {
-		const notes = await getCollection("note", note => {
-			// Apply filtering criteria
-			const published = !note.data.draft; // Exclude draft posts
-			const localed = monolocale || note.id.split("/")[0] === language; // Language filter
-
-			// Include note only if it passes all filters
-			return published && localed;
-		});
+		const notes = await getCollection("note", note => isLiveEntry(note, language));
 
 		// Attach locale and link for each note
 		notes.forEach(note => {
-			const id = monolocale ? note.id : note.id.split("/").slice(1).join("/");
-			Reflect.set(note, "link", new URL(getRelativeLocaleUrl(language, `/note/${id}`), site).toString());
+			Reflect.set(note, "link", new URL(entryUrl(language, "note", note.id), site).toString());
 		});
 
 		items.push(...notes);
 	}
 
 	if (sections === "*" || sections.includes("jotting")) {
-		const jottings = await getCollection("jotting", jotting => {
-			// Apply filtering criteria
-			const published = !jotting.data.draft; // Exclude draft posts
-			const localed = monolocale || jotting.id.split("/")[0] === language; // Language filter
-
-			// Include jotting only if it passes all filters
-			return published && localed;
-		});
+		const jottings = await getCollection("jotting", jotting => isLiveEntry(jotting, language));
 
 		// Attach locale and link for each jotting
 		jottings.forEach(jotting => {
-			const id = monolocale ? jotting.id : jotting.id.split("/").slice(1).join("/");
-			Reflect.set(jotting, "link", new URL(getRelativeLocaleUrl(language, `/jotting/${id}`), site).toString());
+			Reflect.set(jotting, "link", new URL(entryUrl(language, "jotting", jotting.id), site).toString());
 		});
 
 		items.push(...jottings);

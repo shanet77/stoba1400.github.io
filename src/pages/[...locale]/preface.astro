@@ -1,31 +1,22 @@
 ---
 import { getCollection } from "astro:content";
-import config, { monolocale } from "$config";
+import config from "$config";
+import { isLiveEntry, localePaths } from "$utils/locale";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import i18nit from "$i18n";
 
 export async function getStaticPaths() {
-	// Create path for each locale, omitting default locale from URL
-	return config.i18n.locales.map(locale => ({ params: { locale: config.i18n.defaultLocale === locale ? undefined : locale } }));
+	return localePaths();
 }
 
 const { locale = config.i18n.defaultLocale } = Astro.params;
 
 const t = i18nit(locale);
 
-const prefaces = (
-	await getCollection("preface", preface => {
-		// Handle single locale setup
-		if (monolocale) return true;
-
-		// Extract language and ID from file path structure
-		const [language, id] = preface.id.split("/");
-		preface.id = id;
-
-		return language === locale;
-	})
-).sort((a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime());
+const prefaces = (await getCollection("preface", preface => isLiveEntry(preface, locale))).sort(
+	(a, b) => b.data.timestamp.getTime() - a.data.timestamp.getTime()
+);
 ---
 
 <Base title={t("navigation.preface")} {locale}>
