@@ -1,12 +1,11 @@
 ---
 import { getEntry, render } from "astro:content";
+import { Image } from "astro:assets";
 import config from "$config";
 import { localePaths } from "$utils/locale";
 import Time from "$utils/time";
 import Base from "$layouts/Base.astro";
 import i18nit from "$i18n";
-import { readdirSync } from "node:fs";
-import { join } from "node:path";
 
 export async function getStaticPaths() {
 	return localePaths();
@@ -18,13 +17,16 @@ const t = i18nit(locale);
 
 const introduction = await getEntry("information", `${locale}/introduction`);
 
-const stickersDir = join(process.cwd(), "public", "stickers");
-const stickers = readdirSync(stickersDir)
-	.filter(f => /\.jpe?g$/i.test(f))
-	.map(f => ({
-		name: f.replace(/\.jpe?g$/i, ""),
-		ext: f.match(/\.jpe?g$/i)?.[0] ?? ".jpg"
-	}));
+const images = import.meta.glob<{ default: ImageMetadata }>("/src/assets/stickers/*.{jpg,jpeg}", { eager: true });
+const stickers = Object.entries(images)
+	.map(([path, { default: image }]) => ({
+		name: path
+			.split("/")
+			.pop()!
+			.replace(/\.(jpe?g)$/i, ""),
+		image
+	}))
+	.sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
 ---
 
 <style lang="less">
@@ -56,7 +58,7 @@ const stickers = readdirSync(stickersDir)
 						<div class="gallery">
 							{stickers.map(s => (
 								<a href={`/stickers/${s.name}`} target="_blank">
-									<img src={`/stickers/${s.name}${s.ext}`} alt={s.name} width="120" />
+									<Image src={s.image} alt={s.name} width={120} densities={[1, 2]} />
 								</a>
 							))}
             </div>

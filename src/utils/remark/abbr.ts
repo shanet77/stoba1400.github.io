@@ -36,40 +36,35 @@ const remarkAbbr: Plugin<[], Root> = () => {
 				// Remove the abbreviation definition from the tree
 				if (parent && typeof index === "number") {
 					parent.children.splice(index, 1);
+					// Continue at the same index so the node that shifted into
+					// this slot (e.g. an adjacent definition) is still visited
+					return index;
 				}
 			}
 		});
 
 		// Second pass: replace abbreviations in text nodes
 		if (abbreviations.length > 0) {
-			visit(tree, "text", (node: Text) => {
+			// Compile each abbreviation's regex once per document instead of once per text node
+			const patterns = abbreviations.map(({ abbr, title }) => ({
+				regex: new RegExp(`\\b${escapeRegExp(abbr)}\\b`, "g"),
+				replacement: `<abbr title="${escapeHtml(title)}">${abbr}</abbr>`
+			}));
+
+			visit(tree, "text", (node: Text, index, parent) => {
+				if (typeof index !== "number" || !parent) return;
+
 				let text = node.value;
-				let hasChanges = false;
 
-				for (const { abbr, title } of abbreviations) {
-					// Create a regex that matches the abbreviation as a whole word
-					const regex = new RegExp(`\\b${escapeRegExp(abbr)}\\b`, "g");
-
-					if (regex.test(text)) {
-						hasChanges = true;
-						// Reset regex lastIndex for replacement
-						regex.lastIndex = 0;
-						text = text.replace(regex, `<abbr title="${escapeHtml(title)}">${abbr}</abbr>`);
-					}
+				for (const { regex, replacement } of patterns) {
+					text = text.replace(regex, replacement);
 				}
 
-				if (hasChanges) {
-					// Convert the text node to HTML
-					const parent = findParent(tree, node);
-					if (parent) {
-						const index = parent.children.indexOf(node);
-						if (index !== -1) {
-							parent.children[index] = {
-								type: "html",
-								value: text
-							};
-						}
-					}
+				if (text !== node.value) {
+					parent.children[index] = {
+						type: "html",
+						value: text
+					};
 				}
 			});
 		}
@@ -88,26 +83,6 @@ function escapeRegExp(string: string): string {
  */
 function escapeHtml(text: string): string {
 	return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-}
-
-/**
- * Find the parent node of a given child node
- */
-function findParent(tree: Root, target: any): any {
-	let parent: any = null;
-
-	visit(tree, (node: any) => {
-		if (node.children) {
-			for (const child of node.children) {
-				if (child === target) {
-					parent = node;
-					return false; // Stop visiting
-				}
-			}
-		}
-	});
-
-	return parent;
 }
 
 export default remarkAbbr;
