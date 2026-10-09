@@ -2,9 +2,10 @@
 const { title, subtitle, description, author, article } = Astro.props;
 const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID?.trim();
 
-// Locale-specific Noto Serif font mappings for Google Fonts
-const notoFonts: Record<string, string> = {
-	en: "https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+// Locale-specific reading serif mappings for Google Fonts.
+// Newsreader is a bookish, on-screen-optimized serif (closer to Anomaly's Valkyrie than Noto).
+const serifFonts: Record<string, string> = {
+	en: "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap"
 };
 ---
 
@@ -40,17 +41,15 @@ const notoFonts: Record<string, string> = {
 		<link rel="stylesheet" href="https://fontsapi.zeoseven.com/556/main/result.css" crossorigin />
 		<link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.4/katex.min.css" onload="this.onload=null;this.rel='stylesheet'" />
 
-		{Astro.currentLocale && notoFonts[Astro.currentLocale] && <link rel="stylesheet" href={notoFonts[Astro.currentLocale]} />}
+		{Astro.currentLocale && serifFonts[Astro.currentLocale] && <link rel="stylesheet" href={serifFonts[Astro.currentLocale]} />}
 
 		<script is:inline>
 			var theme = localStorage.getItem("theme");
 			if (theme) document.documentElement.dataset.theme = theme;
 		</script>
 
-		{umamiWebsiteId && (
-			<!-- Privacy-friendly analytics by Umami -->
-			<script defer src="https://cloud.umami.is/script.js" data-website-id={umamiWebsiteId}></script>
-		)}
+		<!-- Privacy-friendly analytics by Umami (only loaded when PUBLIC_UMAMI_WEBSITE_ID is set) -->
+		{umamiWebsiteId && <script defer src="https://cloud.umami.is/script.js" data-website-id={umamiWebsiteId}></script>}
 	</head>
 	<body>
 		<slot />
